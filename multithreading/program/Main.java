@@ -32,30 +32,28 @@ public class Main {
         // Waits for combined future to complete, ensuring the main thread doesn't terminate
         combinedFuture.join();
 
-        /*
-        FileReaderTask readerTask = new FileReaderTask(inputFilePath, sharedData);
-        FileWriterTask writerTask = new FileWriterTask(outputFilePath, sharedData);
+//        FileReaderTask readerTask = new FileReaderTask(inputFilePath, sharedData);
+//        FileWriterTask writerTask = new FileWriterTask(outputFilePath, sharedData);
+//
+//        Thread readerThread = new Thread(readerTask);
+//        Thread writerThread = new Thread(writerTask);
+//
+//        readerThread.start();
+//        // Wait for the reader thread to finish before starting writer thread
+//        try {
+//            readerThread.join();
+//        } catch (InterruptedException e) {
+//            System.out.println("Exception occurred in joining reader " + e.getMessage());
+//        }
+//        writerThread.start();
+//        // Wait for the writer thread to finish
+//        try {
+//            writerThread.join();
+//        } catch (InterruptedException e) {
+//            System.out.println("Exception occurred in joining writer " + e.getMessage());
+//        }
 
-        Thread readerThread = new Thread(readerTask);
-        Thread writerThread = new Thread(writerTask);
+        // System.out.println("File read and write operation executed successfully");
 
-        readerThread.start();
-        // Wait for the reader thread to finish before starting writer thread
-        try {
-            readerThread.join();
-        } catch (InterruptedException e) {
-            System.out.println("Exception occurred in joining reader " + e.getMessage());
-        }
-        writerThread.start();
-        // Wait for the writer thread to finish
-        try {
-            writerThread.join();
-        } catch (InterruptedException e) {
-            System.out.println("Exception occurred in joining writer " + e.getMessage());
-        }
-
-        System.out.println("File read and write operation executed successfully");
-
-         */
     }
 }
