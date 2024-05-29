@@ -1,4 +1,4 @@
-package com.nagarro.pathway.controller;
+package com.nagarro.usermodule.controller;
 
 import java.util.List;
 
