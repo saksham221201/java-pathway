@@ -1,32 +1,26 @@
 package com.nagarro.usermodule.exception;
 
 public class RecordAlreadyExistsException extends RuntimeException{
-	private String message;
-	private Object fieldValue;
+	private String error;
+	private int code;
 
-	public RecordAlreadyExistsException(String message, Long fieldValue) {
-		super(message + " - " + fieldValue);
-		this.message = message;
-		this.fieldValue = fieldValue;
-	}
-	public RecordAlreadyExistsException(String message, Integer fieldValue) {
-		super(message + " - " + fieldValue);
-		this.message = message;
-		this.fieldValue = fieldValue;
+	public RecordAlreadyExistsException(String error, int code) {
+		this.error = error;
+		this.code = code;
 	}
 
-	public RecordAlreadyExistsException(String message, String fieldValue) {
-		super(message + " - " + fieldValue);
-		this.message = message;
-		this.fieldValue = fieldValue;
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
 	}
 
-	public String getMessage() {
-		return message;
+	public int getCode() {
+		return code;
 	}
-
-	public Object getFieldValue() {
-		return fieldValue;
+	public void setCode(int code) {
+		this.code = code;
 	}
 }
 

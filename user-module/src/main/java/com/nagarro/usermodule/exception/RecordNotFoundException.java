@@ -1,27 +1,26 @@
 package com.nagarro.usermodule.exception;
 
 public class RecordNotFoundException extends RuntimeException {
-	private String exceptionDetail;
-	private Object fieldValue;
+	private String error;
+	private int code;
 
-	public RecordNotFoundException(String exceptionDetail, Long fieldValue) {
-		super(exceptionDetail + " - " + fieldValue);
-		this.exceptionDetail = exceptionDetail;
-		this.fieldValue = fieldValue;
+	public RecordNotFoundException(String error, int code) {
+		this.error = error;
+		this.code = code;
 	}
 
-	public RecordNotFoundException(String exceptionDetail, String fieldValue) {
-		super(exceptionDetail + " - " + fieldValue);
-		this.exceptionDetail = exceptionDetail;
-		this.fieldValue = fieldValue;
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
 	}
 
-	public String getExceptionDetail() {
-		return exceptionDetail;
+	public int getCode() {
+		return code;
 	}
-
-	public Object getFieldValue() {
-		return fieldValue;
+	public void setCode(int code) {
+		this.code = code;
 	}
 }
 
