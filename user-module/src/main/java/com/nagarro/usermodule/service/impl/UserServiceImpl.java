@@ -16,8 +16,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User addUser(User user) {
@@ -32,6 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new RecordAlreadyExistsException("User already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
 
+        // Saving user to database
         return userDao.save(user);
     }
 
@@ -69,6 +74,7 @@ public class UserServiceImpl implements UserService {
         updateUser.setFirstName(user.getFirstName());
         updateUser.setLastName(user.getLastName());
 
+        // Updating the user in the database
         return userDao.save(updateUser);
     }
 }

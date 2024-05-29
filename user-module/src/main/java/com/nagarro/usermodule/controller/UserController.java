@@ -15,7 +15,7 @@ import com.nagarro.usermodule.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-	private UserService userService;
+	private final UserService userService;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -25,19 +25,19 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<User> addUsers(@RequestBody User user){
 		User newUser = userService.addUser(user);
-		return new ResponseEntity<User>(newUser, new HttpHeaders(), HttpStatus.CREATED);
+		return new ResponseEntity<>(newUser, new HttpHeaders(), HttpStatus.CREATED);
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> list = userService.getAllUsers();
-		return new ResponseEntity<List<User>>(list, new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
 		User fetchedUser = userService.getUserById(id);
-		return new ResponseEntity<User>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
