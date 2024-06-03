@@ -8,6 +8,7 @@ import com.nagarro.usermodule.exception.RecordNotFoundException;
 import com.nagarro.usermodule.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +36,11 @@ public class UserServiceImpl implements UserService {
         if(optionalUser.isPresent()){
             throw new RecordAlreadyExistsException("User already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
+
+        // Encrypting the Password
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
 
         // Saving user to database
         return userDao.save(user);
@@ -74,7 +80,23 @@ public class UserServiceImpl implements UserService {
         updateUser.setFirstName(user.getFirstName());
         updateUser.setLastName(user.getLastName());
 
+        // Encrypting the Password
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        updateUser.setPassword(encryptedPassword);
+
         // Updating the user in the database
         return userDao.save(updateUser);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        // Checking if the user with the given id already exists or not
+        Optional<User> existingUser = userDao.findById(userId);
+        if(existingUser.isEmpty()){
+            throw new RecordNotFoundException("User not found with id: " + userId, HttpStatus.NOT_FOUND.value());
+        }
+
+        userDao.deleteById(userId);
     }
 }
