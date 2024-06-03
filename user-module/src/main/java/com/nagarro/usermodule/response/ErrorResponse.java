@@ -3,7 +3,7 @@ package com.nagarro.usermodule.response;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
-	private String message;
+	private String error;
 	
 	private int code;
 	
@@ -13,17 +13,17 @@ public class ErrorResponse {
 		super();
 	}
 
-	public ErrorResponse(String message, int code) {
-		this.message = message;
+	public ErrorResponse(String error, int code) {
+		this.error = error;
 		this.code = code;
 		this.timestamp = LocalDateTime.now();
 	}
 
-	public String getMessage() {
-		return message;
+	public String getError() {
+		return error;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setError(String error) {
+		this.error = error;
 	}
 
 	public int getCode() {
