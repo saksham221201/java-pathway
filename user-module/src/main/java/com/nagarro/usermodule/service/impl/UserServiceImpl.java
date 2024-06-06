@@ -63,6 +63,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        Optional<User> optionalUser = userDao.findByEmail(email);
+        if(optionalUser.isEmpty()){
+            throw new RecordNotFoundException("User not found with email: " + email, HttpStatus.NOT_FOUND.value());
+        }
+        return optionalUser.get();
+    }
+
+    @Override
     public User updateUser(Long userId, User user) {
         // Checking if any of the inputs is null
         if(user.getEmail().isBlank() || user.getFirstName().isBlank() || user.getLastName().isBlank() || user.getPassword().isBlank()){

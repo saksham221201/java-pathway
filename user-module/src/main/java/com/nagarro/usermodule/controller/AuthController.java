@@ -1,0 +1,32 @@
+package com.nagarro.usermodule.controller;
+
+import com.nagarro.usermodule.entity.User;
+import com.nagarro.usermodule.request.LoginRequest;
+import com.nagarro.usermodule.response.LoginResponse;
+import com.nagarro.usermodule.service.AuthService;
+import com.nagarro.usermodule.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/v1/api/auth")
+public class AuthController {
+    private final AuthService authService;
+    private final UserService userService;
+
+    @Autowired
+    public AuthController(AuthService authService, UserService userService) {
+        this.authService = authService;
+        this.userService = userService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+        String token = authService.authenticateUser(loginRequest);
+        User existingUser = userService.getUserByEmail(loginRequest.getEmail());
+        LoginResponse loginResponse = new LoginResponse(existingUser, token);
+        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+    }
+}
