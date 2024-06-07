@@ -2,27 +2,38 @@
     <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{36} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="myErrorFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>user-module-error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
             </pattern>
         </encoder>
     </appender>
 
     <appender name="myFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>user-module.log</file>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{36} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
             </pattern>
         </encoder>
-        <file>
-            user-module.log
-        </file>
     </appender>
 
-    <!-- Logging at INFO level -->
     <root level="INFO">
         <appender-ref ref="myConsoleAppender" />
-        <appender-ref ref="myFileAppender" />
     </root>
 
-
+    <logger name="com.nagarro.usermodule" level="TRACE">
+        <appender-ref ref="myErrorFileAppender" />
+        <appender-ref ref="myFileAppender" />
+    </logger>
 </configuration>
