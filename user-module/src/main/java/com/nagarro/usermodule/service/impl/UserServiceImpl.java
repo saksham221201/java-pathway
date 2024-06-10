@@ -1,6 +1,7 @@
 package com.nagarro.usermodule.service.impl;
 
 import com.nagarro.usermodule.dao.UserDao;
+import com.nagarro.usermodule.entity.Role;
 import com.nagarro.usermodule.entity.User;
 import com.nagarro.usermodule.exception.EmptyInputException;
 import com.nagarro.usermodule.exception.RecordAlreadyExistsException;
@@ -9,6 +10,7 @@ import com.nagarro.usermodule.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User addUser(User user) {
 
         logger.debug("Inside Add Users");
@@ -48,18 +51,50 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         logger.info("Password is encrypted inside Add users");
+        user.setRole(Role.USER);
         logger.debug("User is saved");
         // Saving user to database
         return userDao.save(user);
     }
 
+//    @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()")
+
+    public User addAdmin(User user){
+        logger.debug("Inside Add Admin");
+
+        // Checking if any of the fields is Empty or not
+        if(user.getEmail().isBlank() || user.getFirstName().isBlank() || user.getLastName().isBlank() || user.getPassword().isBlank() || user.getMobile().isBlank()){
+            logger.error("Inputs are blank in addAdmin");
+            throw new EmptyInputException("Input cannot be null!!", HttpStatus.BAD_REQUEST.value());
+        }
+
+        // Checking if the user with the given email already exists or not
+        Optional<User> optionalUser = userDao.findByEmail(user.getEmail());
+        if(optionalUser.isPresent()){
+            logger.error("Admin already exists");
+            throw new RecordAlreadyExistsException("Admin already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
+        }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+        logger.info("Password is encrypted inside Add Admin");
+        user.setRole(Role.ADMIN);
+        logger.debug("Admin is saved");
+
+        return userDao.save(user);
+
+    }
+
     @Override
+    //@PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name())")
     public List<User> getAllUsers() {
         logger.debug("Inside getting all users");
         return userDao.findAll();
     }
 
     @Override
+    //@PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User getUserById(Long userId) {
 
         logger.debug("Inside getting user by userId");
@@ -75,6 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User getUserByEmail(String email) {
 
         logger.debug("Inside getting user by email");
@@ -88,6 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User updateUser(Long userId, User user) {
         logger.debug("Inside update User");
 
@@ -122,6 +159,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public void deleteUser(Long userId) {
         logger.debug("Inside Delete Users");
 

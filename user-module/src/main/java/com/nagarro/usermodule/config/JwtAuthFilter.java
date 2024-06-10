@@ -1,6 +1,7 @@
 package com.nagarro.usermodule.config;
 
 import com.nagarro.usermodule.dao.UserDao;
+import com.nagarro.usermodule.entity.Role;
 import com.nagarro.usermodule.entity.User;
 import com.nagarro.usermodule.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -9,12 +10,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -42,10 +46,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         // Get user identity and set it on the spring security context
         User userDetails = userDao.findByEmail(jwtTokenUtil.getEmailFromToken(token)).orElse(null);
+        String userRole = jwtTokenUtil.getRoleFromToken(token);
+
+        //set the authority to the userRole
+        GrantedAuthority authority = new SimpleGrantedAuthority(userRole.toString());
 
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(
-        userDetails, null, null
+        userDetails, null, List.of(authority)
         );
 
         authentication.setDetails(

@@ -1,2 +1,3 @@
 2024-06-07 16:34:50 [http-nio-8085-exec-7] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
 2024-06-07 16:35:14 [http-nio-8085-exec-9] ERROR c.n.u.service.impl.UserServiceImpl - Inputs are blank in updateUser
+2024-06-09 19:20:06 [http-nio-8085-exec-3] ERROR c.n.u.service.impl.UserServiceImpl - Admin already exists
