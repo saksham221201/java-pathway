@@ -14,6 +14,11 @@ public class JwtTokenUtil {
         return claims.getSubject();
     }
 
+    public String getRoleFromToken(String token){
+        Claims claims = getClaimsFromToken(token);
+        return claims.get("role", String.class);
+    }
+
     private Claims getClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(Constant.SECRET_KEY).build().parseClaimsJws(token).getBody();
     }
