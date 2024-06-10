@@ -1,26 +1,15 @@
-2024-06-07 16:33:39 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 32228 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
-2024-06-07 16:33:39 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
-2024-06-07 16:33:39 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
-2024-06-07 16:33:45 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
-2024-06-07 16:33:46 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 7.62 seconds (process running for 8.375)
-2024-06-07 16:34:03 [http-nio-8085-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting all users
-2024-06-07 16:34:04 [http-nio-8085-exec-2] INFO  c.n.u.controller.UserController - Got List of users
-2024-06-07 16:34:05 [http-nio-8085-exec-3] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting all users
-2024-06-07 16:34:05 [http-nio-8085-exec-3] INFO  c.n.u.controller.UserController - Got List of users
-2024-06-07 16:34:06 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting all users
-2024-06-07 16:34:06 [http-nio-8085-exec-4] INFO  c.n.u.controller.UserController - Got List of users
-2024-06-07 16:34:10 [http-nio-8085-exec-5] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
-2024-06-07 16:34:10 [http-nio-8085-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
-2024-06-07 16:34:10 [http-nio-8085-exec-5] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
-2024-06-07 16:34:10 [http-nio-8085-exec-5] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
-2024-06-07 16:34:10 [http-nio-8085-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
-2024-06-07 16:34:10 [http-nio-8085-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
-2024-06-07 16:34:10 [http-nio-8085-exec-5] INFO  c.n.u.controller.AuthController - Login is successful
-2024-06-07 16:34:43 [http-nio-8085-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside Add Users
-2024-06-07 16:34:43 [http-nio-8085-exec-6] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside Add users
-2024-06-07 16:34:43 [http-nio-8085-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - User is saved
-2024-06-07 16:34:43 [http-nio-8085-exec-6] INFO  c.n.u.controller.UserController - New User Created
-2024-06-07 16:34:50 [http-nio-8085-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside Add Users
-2024-06-07 16:34:50 [http-nio-8085-exec-7] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
-2024-06-07 16:35:14 [http-nio-8085-exec-9] DEBUG c.n.u.service.impl.UserServiceImpl - Inside update User
-2024-06-07 16:35:14 [http-nio-8085-exec-9] ERROR c.n.u.service.impl.UserServiceImpl - Inputs are blank in updateUser
+2024-06-10 11:09:01 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 8792 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-10 11:09:01 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-10 11:09:01 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-10 11:09:10 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-10 11:09:12 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 12.495 seconds (process running for 13.784)
+2024-06-10 11:09:36 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-10 11:09:36 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-10 11:09:37 [http-nio-8085-exec-4] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-10 11:09:37 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-10 11:09:37 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-10 11:09:37 [http-nio-8085-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-10 11:09:37 [http-nio-8085-exec-4] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-10 11:09:52 [http-nio-8085-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside Add Users
+2024-06-10 11:10:05 [http-nio-8085-exec-1] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-10 11:10:05 [http-nio-8085-exec-1] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
