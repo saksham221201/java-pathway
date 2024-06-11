@@ -48,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         User userDetails = userDao.findByEmail(jwtTokenUtil.getEmailFromToken(token)).orElse(null);
         String userRole = jwtTokenUtil.getRoleFromToken(token);
 
-        //set the authority to the userRole
+        // Set the authority to the userRole
         GrantedAuthority authority = new SimpleGrantedAuthority(userRole.toString());
 
         UsernamePasswordAuthenticationToken
