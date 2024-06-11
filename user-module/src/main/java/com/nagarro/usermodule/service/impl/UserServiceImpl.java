@@ -10,7 +10,6 @@ import com.nagarro.usermodule.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User addUser(User user) {
 
         logger.debug("Inside Add Users");
@@ -56,8 +54,6 @@ public class UserServiceImpl implements UserService {
         // Saving user to database
         return userDao.save(user);
     }
-
-//    @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()")
 
     public User addAdmin(User user){
         logger.debug("Inside Add Admin");
@@ -87,14 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    //@PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name())")
     public List<User> getAllUsers() {
         logger.debug("Inside getting all users");
         return userDao.findAll();
     }
 
     @Override
-    //@PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User getUserById(Long userId) {
 
         logger.debug("Inside getting user by userId");
@@ -110,7 +104,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User getUserByEmail(String email) {
 
         logger.debug("Inside getting user by email");
@@ -124,7 +117,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public User updateUser(Long userId, User user) {
         logger.debug("Inside update User");
 
@@ -139,6 +131,13 @@ public class UserServiceImpl implements UserService {
         if(existingUser.isEmpty()){
             logger.error("User not found with id:{} inside updateUser", userId);
             throw new RecordNotFoundException("User not found with id: " + userId, HttpStatus.NOT_FOUND.value());
+        }
+
+        // Checking if the user with the given email already exists or not
+        Optional<User> optionalUser = userDao.findByEmail(user.getEmail());
+        if(optionalUser.isPresent()){
+            logger.error("Email already exists");
+            throw new RecordAlreadyExistsException("Admin already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
 
         User updateUser = existingUser.get();
@@ -159,7 +158,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-   // @PreAuthorize("hasRole(T(com.nagarro.usermodule.entity.Role).ADMIN.name()) or hasRole(T(com.nagarro.usermodule.entity.Role).USER.name())")
     public void deleteUser(Long userId) {
         logger.debug("Inside Delete Users");
 

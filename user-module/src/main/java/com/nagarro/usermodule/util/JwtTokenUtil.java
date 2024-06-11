@@ -20,7 +20,11 @@ public class JwtTokenUtil {
     }
 
     private Claims getClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(Constant.SECRET_KEY).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(Constant.SECRET_KEY)
+                .build().
+                parseClaimsJws(token)
+                .getBody();
     }
     public boolean validateToken(String token) {
         return !isTokenExpired(token);
