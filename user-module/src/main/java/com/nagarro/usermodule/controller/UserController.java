@@ -8,13 +8,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
 import com.nagarro.usermodule.entity.User;
 import com.nagarro.usermodule.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@RequestMapping("/users")
+@RequestMapping("/v1/api")
 public class UserController {
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -32,10 +31,11 @@ public class UserController {
 		return new ResponseEntity<>(newUser, new HttpHeaders(), HttpStatus.CREATED);
 	}
 
-	//Autherize only those that have ADMIN as their Authority, Authority defined in JwtAuthFilter
+	//Authorize only those that have ADMIN as their Authority, Authority defined in JwtAuthFilter
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/admin")
 	public ResponseEntity<User> addAdmin(@RequestBody User user){
+		logger.debug("Inside add admin");
 		User newAdmin = userService.addAdmin(user);
 		logger.info("New Admin Created");
 		return new ResponseEntity<>(newAdmin, new HttpHeaders(), HttpStatus.CREATED);
@@ -58,7 +58,7 @@ public class UserController {
 		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
 	}
 
-	//#id is from pathh variable and principal is the logged-in user
+	//#id is from path variable and principal is the logged-in user
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {

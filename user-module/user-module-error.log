@@ -1,2 +1,2 @@
-2024-06-10 11:09:52 [http-nio-8085-exec-7] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
-2024-06-10 11:10:05 [http-nio-8085-exec-1] ERROR c.n.u.service.impl.UserServiceImpl - User not found with email:sakshamjoshi1975@gmail.com
+2024-06-10 20:10:47 [http-nio-8085-exec-10] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
+2024-06-10 20:10:49 [http-nio-8085-exec-2] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
