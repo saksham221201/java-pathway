@@ -19,6 +19,7 @@ public class AuthController {
     private final AuthService authService;
     private final UserService userService;
 
+    // Constructor Autowiring
     public AuthController(AuthService authService, UserService userService) {
         this.authService = authService;
         this.userService = userService;

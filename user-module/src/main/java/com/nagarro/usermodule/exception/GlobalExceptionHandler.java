@@ -38,4 +38,10 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(UnauthorizedAccessException e){
+        ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 }
