@@ -1,5 +1,8 @@
 package com.nagarro.usermodule.exception;
 
+import lombok.Getter;
+
+@Getter
 public class BadRequestException extends RuntimeException{
     private String error;
     private int code;
@@ -9,16 +12,8 @@ public class BadRequestException extends RuntimeException{
         this.code = code;
     }
 
-    public String getError() {
-        return error;
-    }
-
     public void setError(String error) {
         this.error = error;
-    }
-
-    public int getCode() {
-        return code;
     }
 
     public void setCode(int code) {
