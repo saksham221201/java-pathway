@@ -1,5 +1,8 @@
 package com.nagarro.usermodule.exception;
 
+import lombok.Getter;
+
+@Getter
 public class UnauthorizedAccessException extends RuntimeException{
 	private String error;
 	private int code;
@@ -9,17 +12,11 @@ public class UnauthorizedAccessException extends RuntimeException{
 		this.code = code;
 	}
 
-	public String getError() {
-		return error;
-	}
-	public void setError(String error) {
+    public void setError(String error) {
 		this.error = error;
 	}
 
-	public int getCode() {
-		return code;
-	}
-	public void setCode(int code) {
+    public void setCode(int code) {
 		this.code = code;
 	}
 }

@@ -1,7 +1,6 @@
 package com.nagarro.usermodule.config;
 
 import com.nagarro.usermodule.dao.UserDao;
-import com.nagarro.usermodule.entity.Role;
 import com.nagarro.usermodule.entity.User;
 import com.nagarro.usermodule.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -49,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String userRole = jwtTokenUtil.getRoleFromToken(token);
 
         // Set the authority to the userRole
-        GrantedAuthority authority = new SimpleGrantedAuthority(userRole.toString());
+        GrantedAuthority authority = new SimpleGrantedAuthority(userRole);
 
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(

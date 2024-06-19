@@ -83,6 +83,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User seedAdmin(User user) {
+        return userDao.save(user);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         logger.debug("Inside getting all users");
         return userDao.findAll();

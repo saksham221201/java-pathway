@@ -20,12 +20,14 @@ public class UserController {
 
 	private final UserService userService;
 
+	// Constructor Autowiring
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
 	
 	@PostMapping("/users")
 	public ResponseEntity<User> addUsers(@RequestBody User user){
+		logger.debug("Inside add Users Controller");
 		User newUser = userService.addUser(user);
 		logger.info("New User Created");
 		return new ResponseEntity<>(newUser, new HttpHeaders(), HttpStatus.CREATED);
@@ -35,7 +37,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/admin")
 	public ResponseEntity<User> addAdmin(@RequestBody User user){
-		logger.debug("Inside add admin");
+		logger.debug("Inside add admin controller");
 		User newAdmin = userService.addAdmin(user);
 		logger.info("New Admin Created");
 		return new ResponseEntity<>(newAdmin, new HttpHeaders(), HttpStatus.CREATED);
@@ -44,6 +46,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers(){
+		logger.debug("Inside getAllUsers Controller");
 		List<User> list = userService.getAllUsers();
 		logger.info("Got List of users");
 		return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
@@ -53,6 +56,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
+		logger.debug("Inside getUserById controller");
 		User fetchedUser = userService.getUserById(id);
 		logger.info("Fetched a user by id");
 		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
@@ -62,6 +66,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+		logger.debug("Inside update Users Controller");
 		User updatedUser = userService.updateUser(id, user);
 		logger.info("Updated user with id:{}", id);
 		return new ResponseEntity<>(updatedUser, new HttpHeaders(), HttpStatus.OK);
@@ -70,6 +75,7 @@ public class UserController {
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+		logger.debug("Inside delete Users Controller");
 		userService.deleteUser(id);
 		logger.info("Deleted user of id:{}", id);
 		return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
