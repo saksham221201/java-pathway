@@ -2,3 +2,7 @@
 2024-06-17 18:14:19 [http-nio-8085-exec-9] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
 2024-06-17 18:21:35 [main] ERROR c.n.u.service.impl.UserServiceImpl - Admin already exists
 2024-06-17 18:26:55 [main] ERROR c.n.u.service.impl.UserServiceImpl - Admin already exists
+2024-06-19 15:37:31 [https-jsse-nio-443-exec-8] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
+2024-06-19 15:38:04 [https-jsse-nio-443-exec-5] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
+2024-06-19 15:39:59 [https-jsse-nio-443-exec-10] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
+2024-06-19 15:42:22 [https-jsse-nio-443-exec-6] ERROR c.n.u.service.impl.UserServiceImpl - User not found with email:nagarro@nagarro@gmail.com
