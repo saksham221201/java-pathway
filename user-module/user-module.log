@@ -133,3 +133,74 @@
 2024-06-19 16:19:05 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
 2024-06-19 16:19:05 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
 2024-06-19 16:19:06 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 8.271 seconds (process running for 9.211)
+2024-06-21 14:59:30 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 25128 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-21 14:59:30 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-21 14:59:30 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-21 14:59:36 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-21 14:59:37 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-21 14:59:38 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 8.757 seconds (process running for 10.223)
+2024-06-21 15:00:40 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-21 15:00:40 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 15:00:41 [https-jsse-nio-443-exec-7] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-21 15:00:41 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-21 15:00:41 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 15:00:41 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 15:00:41 [https-jsse-nio-443-exec-7] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-21 15:01:27 [https-jsse-nio-443-exec-5] DEBUG c.n.u.controller.UserController - Inside add admin controller
+2024-06-21 15:01:27 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside Add Admin
+2024-06-21 15:01:27 [https-jsse-nio-443-exec-5] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside Add Admin
+2024-06-21 15:01:27 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Admin is saved
+2024-06-21 15:01:27 [https-jsse-nio-443-exec-5] INFO  c.n.u.controller.UserController - New Admin Created
+2024-06-21 16:09:30 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 34580 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-21 16:09:30 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-21 16:09:30 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-21 16:09:35 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-21 16:09:35 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-21 16:09:36 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 6.812 seconds (process running for 7.657)
+2024-06-21 16:10:11 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-21 16:10:11 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:10:11 [https-jsse-nio-443-exec-7] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-21 16:10:11 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-21 16:10:11 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:11:03 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 31108 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-21 16:11:03 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-21 16:11:03 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-21 16:11:08 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-21 16:11:08 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-21 16:11:09 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 6.345 seconds (process running for 7.058)
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:11:13 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-21 16:11:27 [https-jsse-nio-443-exec-7] DEBUG c.n.u.controller.UserController - Inside add admin controller
+2024-06-21 16:11:27 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside Add Admin
+2024-06-21 16:11:27 [https-jsse-nio-443-exec-7] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside Add Admin
+2024-06-21 16:11:27 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Admin is saved
+2024-06-21 16:11:27 [https-jsse-nio-443-exec-7] INFO  c.n.u.controller.UserController - New Admin Created
+2024-06-21 16:13:31 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 28364 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-21 16:13:31 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-21 16:13:31 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-21 16:13:37 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-21 16:13:37 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-21 16:13:38 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 7.529 seconds (process running for 8.241)
+2024-06-21 16:13:52 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-21 16:13:52 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:13:53 [https-jsse-nio-443-exec-5] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-21 16:13:53 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-21 16:13:53 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:16:44 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 30224 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-21 16:16:44 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-21 16:16:44 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-21 16:16:49 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-21 16:16:49 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-21 16:16:50 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 6.39 seconds (process running for 7.12)
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-21 16:19:03 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.AuthController - Login is successful
