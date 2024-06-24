@@ -204,3 +204,100 @@
 2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
 2024-06-21 16:19:02 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
 2024-06-21 16:19:03 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:35:02 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 34336 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-24 10:35:02 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-24 10:35:02 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-24 10:35:09 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-24 10:35:09 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-24 10:35:10 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 8.852 seconds (process running for 9.762)
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:35:24 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:36:17 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:36:17 [https-jsse-nio-443-exec-7] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:36:28 [https-jsse-nio-443-exec-8] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:36:28 [https-jsse-nio-443-exec-8] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:36:49 [https-jsse-nio-443-exec-9] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:36:49 [https-jsse-nio-443-exec-9] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:37:15 [https-jsse-nio-443-exec-10] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:37:45 [https-jsse-nio-443-exec-2] DEBUG c.n.u.controller.UserController - Inside update Users Controller
+2024-06-24 10:37:45 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside update User
+2024-06-24 10:37:46 [https-jsse-nio-443-exec-2] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside update Users
+2024-06-24 10:37:46 [https-jsse-nio-443-exec-2] INFO  c.n.u.service.impl.UserServiceImpl - User updated Successfully
+2024-06-24 10:37:46 [https-jsse-nio-443-exec-2] INFO  c.n.u.controller.UserController - Updated user with id:3
+2024-06-24 10:38:27 [https-jsse-nio-443-exec-8] DEBUG c.n.u.controller.UserController - Inside getAllUsers Controller
+2024-06-24 10:38:27 [https-jsse-nio-443-exec-8] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting all users
+2024-06-24 10:38:27 [https-jsse-nio-443-exec-8] INFO  c.n.u.controller.UserController - Got List of users
+2024-06-24 10:39:11 [https-jsse-nio-443-exec-9] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:39:11 [https-jsse-nio-443-exec-9] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:39:11 [https-jsse-nio-443-exec-9] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:39:34 [https-jsse-nio-443-exec-10] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:39:47 [https-jsse-nio-443-exec-2] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:39:47 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:39:47 [https-jsse-nio-443-exec-2] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:41:03 [https-jsse-nio-443-exec-8] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:41:03 [https-jsse-nio-443-exec-8] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:41:03 [https-jsse-nio-443-exec-8] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:42:15 [https-jsse-nio-443-exec-1] DEBUG c.n.u.controller.UserController - Inside update Users Controller
+2024-06-24 10:42:15 [https-jsse-nio-443-exec-1] DEBUG c.n.u.service.impl.UserServiceImpl - Inside update User
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:43:43 [https-jsse-nio-443-exec-2] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:44:13 [https-jsse-nio-443-exec-3] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:44:13 [https-jsse-nio-443-exec-3] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:44:13 [https-jsse-nio-443-exec-3] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:44:19 [https-jsse-nio-443-exec-4] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:44:19 [https-jsse-nio-443-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:44:24 [https-jsse-nio-443-exec-10] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:44:24 [https-jsse-nio-443-exec-10] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:44:24 [https-jsse-nio-443-exec-10] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:44:26 [https-jsse-nio-443-exec-2] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:44:26 [https-jsse-nio-443-exec-2] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:44:26 [https-jsse-nio-443-exec-2] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:44:57 [https-jsse-nio-443-exec-3] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:44:57 [https-jsse-nio-443-exec-3] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:44:57 [https-jsse-nio-443-exec-3] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:45:00 [https-jsse-nio-443-exec-4] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:45:00 [https-jsse-nio-443-exec-4] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:45:00 [https-jsse-nio-443-exec-4] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-24 10:45:02 [https-jsse-nio-443-exec-5] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:45:02 [https-jsse-nio-443-exec-5] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:45:04 [https-jsse-nio-443-exec-1] DEBUG c.n.u.controller.UserController - Inside getAllUsers Controller
+2024-06-24 10:45:04 [https-jsse-nio-443-exec-1] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting all users
+2024-06-24 10:45:04 [https-jsse-nio-443-exec-1] INFO  c.n.u.controller.UserController - Got List of users
+2024-06-24 10:48:41 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 11764 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-24 10:48:41 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-24 10:48:41 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-24 10:48:50 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-24 10:48:51 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-24 10:48:53 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 12.496 seconds (process running for 13.488)
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside authenticate User
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] INFO  c.n.u.service.impl.AuthServiceImpl - Generating JWT Token
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.AuthServiceImpl - Inside generateJWTToken function
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by email
+2024-06-24 10:49:00 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.AuthController - Login is successful
+2024-06-24 10:49:21 [https-jsse-nio-443-exec-1] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-24 10:49:21 [https-jsse-nio-443-exec-1] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-24 10:49:21 [https-jsse-nio-443-exec-1] INFO  c.n.u.controller.UserController - Fetched a user by id
