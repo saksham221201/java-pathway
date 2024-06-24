@@ -6,3 +6,9 @@
 2024-06-19 15:38:04 [https-jsse-nio-443-exec-5] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
 2024-06-19 15:39:59 [https-jsse-nio-443-exec-10] ERROR c.n.u.service.impl.UserServiceImpl - User already exists
 2024-06-19 15:42:22 [https-jsse-nio-443-exec-6] ERROR c.n.u.service.impl.UserServiceImpl - User not found with email:nagarro@nagarro@gmail.com
+2024-06-24 10:36:17 [https-jsse-nio-443-exec-7] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
+2024-06-24 10:36:28 [https-jsse-nio-443-exec-8] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
+2024-06-24 10:36:49 [https-jsse-nio-443-exec-9] ERROR c.n.u.service.impl.AuthServiceImpl - Incorrect Credentials
+2024-06-24 10:42:15 [https-jsse-nio-443-exec-1] ERROR c.n.u.service.impl.UserServiceImpl - Email already exists
+2024-06-24 10:44:19 [https-jsse-nio-443-exec-4] ERROR c.n.u.service.impl.UserServiceImpl - User not found with id:2 inside getUserById
+2024-06-24 10:45:02 [https-jsse-nio-443-exec-5] ERROR c.n.u.service.impl.UserServiceImpl - User not found with id:2 inside getUserById
