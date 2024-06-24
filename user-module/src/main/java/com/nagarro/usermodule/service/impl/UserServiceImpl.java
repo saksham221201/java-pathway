@@ -9,6 +9,7 @@ import com.nagarro.usermodule.exception.RecordNotFoundException;
 import com.nagarro.usermodule.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -98,6 +99,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    //value specifies what cache to use i.e. name of cache
+    //key is the search parameter if userId found then return otherwise stored in cache
+    @Cacheable(value = "users", key = "#userId")
     public User getUserById(Long userId) {
 
         logger.debug("Inside getting user by userId");
