@@ -3,6 +3,8 @@ package com.nagarro.usermodule.exception;
 import com.nagarro.usermodule.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -13,6 +15,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> genericExceptionHandler(Exception e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({AuthenticationException.class, AccessDeniedException.class})
+    public ResponseEntity<ErrorResponse> securityExceptionHandler(Exception e){
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(RecordAlreadyExistsException.class)
