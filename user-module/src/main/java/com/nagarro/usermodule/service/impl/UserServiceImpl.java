@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -148,9 +149,9 @@ public class UserServiceImpl implements UserService {
 
         // Checking if the user with the given email already exists or not
         Optional<User> optionalUser = userDao.findByEmail(user.getEmail());
-        if(optionalUser.isPresent()){
+        if(optionalUser.isPresent() && !Objects.equals(existingUser.get().getEmail(), user.getEmail())){
             logger.error("Email already exists");
-            throw new RecordAlreadyExistsException("Admin already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
+            throw new RecordAlreadyExistsException("User already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
 
         User updateUser = existingUser.get();
