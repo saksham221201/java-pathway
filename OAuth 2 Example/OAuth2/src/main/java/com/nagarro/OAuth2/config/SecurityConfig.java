@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -21,13 +20,10 @@ public class SecurityConfig {
                 .oauth2Login(oauthLogin ->
                         oauthLogin
                                 .loginPage("/")
-                                .userInfoEndpoint(userInfoEndPoint ->
-                                        userInfoEndPoint.oidcUserService(new OidcUserService())
-                                ))
-                .logout(l -> l.logoutSuccessUrl("/").permitAll())
-                .csrf(c->
-                        c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
-
+                                .userInfoEndpoint(userInfoEndPoint -> userInfoEndPoint.oidcUserService(new OidcUserService())
+                                )
+                )
+                .logout(l-> l.logoutSuccessUrl("/").permitAll());
         return httpSecurity.build();
     }
 }

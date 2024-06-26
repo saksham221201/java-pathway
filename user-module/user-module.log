@@ -591,3 +591,12 @@
 2024-06-26 12:14:24 [https-jsse-nio-443-exec-5] INFO  c.n.u.controller.UserController - Fetched a user by id
 2024-06-26 12:14:48 [https-jsse-nio-443-exec-6] DEBUG c.n.u.controller.UserController - Inside getUserById controller
 2024-06-26 12:14:48 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.UserController - Fetched a user by id
+2024-06-26 12:15:12 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 26416 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-26 12:15:12 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-26 12:15:12 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-26 12:15:17 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-26 12:15:18 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-26 12:15:19 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 7.726 seconds (process running for 8.449)
+2024-06-26 12:15:27 [https-jsse-nio-443-exec-6] DEBUG c.n.u.controller.UserController - Inside getUserById controller
+2024-06-26 12:15:27 [https-jsse-nio-443-exec-6] DEBUG c.n.u.service.impl.UserServiceImpl - Inside getting user by userId
+2024-06-26 12:15:27 [https-jsse-nio-443-exec-6] INFO  c.n.u.controller.UserController - Fetched a user by id
