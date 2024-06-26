@@ -9,6 +9,8 @@ import com.nagarro.usermodule.exception.RecordNotFoundException;
 import com.nagarro.usermodule.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -131,6 +133,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "users", key = "#userId")
     public User updateUser(Long userId, User user) {
         logger.debug("Inside update User");
 
@@ -172,6 +175,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#userId")
     public void deleteUser(Long userId) {
         logger.debug("Inside Delete Users");
 
