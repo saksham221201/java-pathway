@@ -23,3 +23,4 @@
 2024-06-25 11:27:23 [https-jsse-nio-443-exec-10] ERROR c.n.u.service.impl.UserServiceImpl - User not found with id:6 inside getUserById
 2024-06-25 11:29:31 [https-jsse-nio-443-exec-2] ERROR c.n.u.service.impl.UserServiceImpl - User not found with id:6 inside getUserById
 2024-06-25 11:30:00 [https-jsse-nio-443-exec-4] ERROR c.n.u.service.impl.UserServiceImpl - Email already exists
+2024-06-26 12:13:51 [https-jsse-nio-443-exec-4] ERROR c.n.u.service.impl.UserServiceImpl - User not found with id:6 inside getUserById
