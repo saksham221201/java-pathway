@@ -14,6 +14,9 @@ public class UserController {
 
     @GetMapping("/user")
     public Map<String,Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        if (principal == null) {
+            return Collections.singletonMap("name", "Anonymous");
+        }
         return Map.of("name", principal.getAttribute("name"),
                        "login",principal.getAttribute("login")
         );
