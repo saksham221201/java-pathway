@@ -14,6 +14,13 @@ public class UserController {
 
     @GetMapping("/user")
     public Map<String,Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
+        return Map.of("name", principal.getAttribute("name"),
+                       "login",principal.getAttribute("login")
+        );
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "redirect:/";
     }
 }
