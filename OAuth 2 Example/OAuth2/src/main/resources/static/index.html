@@ -20,7 +20,7 @@
     <div class="container authenticated" style="display:none">
         Logged in as: <span id="user"></span>
         <div>
-            <button onClick="logout()" class="btn btn-primary">Logout</button>
+            <button class="btn btn-dark"><a href="/logout">Logout</a></button>
         </div>
     </div>
 </div>
@@ -30,14 +30,6 @@
         $(".unauthenticated").hide()
         $(".authenticated").show()
     });
-    var logout = function() {
-    $.post("/logout", function() {
-        $("#user").html('');
-        $(".unauthenticated").show();
-        $(".authenticated").hide();
-    })
-    return true;
-}
 </script>
 </body>
 </html>
