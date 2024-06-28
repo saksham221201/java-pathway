@@ -1,4 +1,4 @@
-package com.nagarro.account_module;
+package com.nagarro.accountmodule;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
