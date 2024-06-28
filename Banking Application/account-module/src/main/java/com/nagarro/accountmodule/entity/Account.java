@@ -17,6 +17,7 @@ public class Account {
     private String name;
     private String email;
     private String mobile;
+    private Long customerId;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private double balance;
