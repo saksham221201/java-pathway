@@ -18,6 +18,6 @@ public class Account {
     private String email;
     private String mobile;
     @Enumerated(EnumType.STRING)
-    private String accountType;
+    private AccountType accountType;
     private double balance;
 }
