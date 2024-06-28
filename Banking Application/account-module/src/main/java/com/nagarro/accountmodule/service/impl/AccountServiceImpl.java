@@ -4,7 +4,6 @@ import com.nagarro.accountmodule.dao.AccountDao;
 import com.nagarro.accountmodule.entity.Account;
 import com.nagarro.accountmodule.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
