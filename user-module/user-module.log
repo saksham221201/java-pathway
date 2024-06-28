@@ -644,3 +644,9 @@
 2024-06-26 15:02:02 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
 2024-06-26 15:02:02 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
 2024-06-26 15:02:05 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 10.147 seconds (process running for 11.014)
+2024-06-27 15:52:19 [main] INFO  c.n.usermodule.UserModuleApplication - Starting UserModuleApplication using Java 19.0.2 with PID 17492 (D:\Java Pathway\user-module\target\classes started by sakshamjoshi in D:\Java Pathway\user-module)
+2024-06-27 15:52:19 [main] DEBUG c.n.usermodule.UserModuleApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-06-27 15:52:19 [main] INFO  c.n.usermodule.UserModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-27 15:52:28 [main] DEBUG c.n.usermodule.config.JwtAuthFilter - Filter 'jwtAuthFilter' configured for use
+2024-06-27 15:52:29 [main] INFO  c.n.u.service.impl.UserServiceImpl - Password is encrypted inside seed Admin
+2024-06-27 15:52:31 [main] INFO  c.n.usermodule.UserModuleApplication - Started UserModuleApplication in 13.036 seconds (process running for 14.372)
