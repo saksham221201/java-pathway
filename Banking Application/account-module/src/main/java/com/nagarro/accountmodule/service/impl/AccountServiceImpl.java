@@ -65,6 +65,20 @@ public class AccountServiceImpl implements AccountService {
         return accountOptional.get();
     }
 
+    @Override
+    public Account updateBalance(double balance,int accountNumber){
+        logger.debug("Inside updateBalance");
+
+        if(accountDao.findByAccountNumber(accountNumber).isEmpty()){
+            logger.error("Inside updateBalance-Account not found with account number: ", accountNumber);
+        }
+        Account account = accountDao.findByAccountNumber(accountNumber).orElseThrow(()-> new RecordNotFoundException("Account not Found with accountNumber: " + accountNumber,
+                HttpStatus.NOT_FOUND.value()));
+
+        account.setBalance(balance);
+        return accountDao.save(account);
+    }
+
     private int generateAccountNumber() {
         return 100000 + random.nextInt(900000);
     }

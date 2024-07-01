@@ -1,6 +1,0 @@
-2024-07-01 12:00:07 [http-nio-8082-exec-2] ERROR c.n.a.s.impl.AccountServiceImpl - Inputs are blank in create Account
-2024-07-01 12:00:08 [http-nio-8082-exec-4] ERROR c.n.a.s.impl.AccountServiceImpl - Inputs are blank in create Account
-2024-07-01 12:05:05 [http-nio-8082-exec-1] ERROR c.n.a.s.impl.AccountServiceImpl - Account Type is incorrect
-2024-07-01 12:07:53 [http-nio-8082-exec-2] ERROR c.n.a.s.impl.AccountServiceImpl - Account Type is incorrect
-2024-07-01 12:08:48 [http-nio-8082-exec-2] ERROR c.n.a.s.impl.AccountServiceImpl - Account Type is incorrect
-2024-07-01 15:28:04 [http-nio-8082-exec-2] ERROR c.n.a.s.impl.AccountServiceImpl - Account not found with account number3

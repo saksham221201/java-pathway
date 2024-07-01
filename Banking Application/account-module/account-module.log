@@ -53,3 +53,7 @@
 2024-07-01 15:14:20 [http-nio-8082-exec-5] DEBUG c.n.a.controller.AccountController - Inside Get Account details
 2024-07-01 15:14:20 [http-nio-8082-exec-5] DEBUG c.n.a.s.impl.AccountServiceImpl - Inside getAccountDetails
 2024-07-01 15:14:20 [http-nio-8082-exec-5] DEBUG c.n.a.controller.AccountController - Account details fetched inside controller
+2024-07-01 16:19:36 [main] INFO  c.n.a.AccountModuleApplication - Starting AccountModuleApplication using Java 17.0.11 with PID 13600 (C:\Users\kamadnayyar\OneDrive - Nagarro\Desktop\java-pathway\java-pathway\Banking Application\account-module\target\classes started by kamadnayyar in C:\Users\kamadnayyar\OneDrive - Nagarro\Desktop\java-pathway\java-pathway\Banking Application\account-module)
+2024-07-01 16:19:36 [main] DEBUG c.n.a.AccountModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-01 16:19:36 [main] INFO  c.n.a.AccountModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-01 16:19:43 [main] INFO  c.n.a.AccountModuleApplication - Started AccountModuleApplication in 7.402 seconds (process running for 8.08)

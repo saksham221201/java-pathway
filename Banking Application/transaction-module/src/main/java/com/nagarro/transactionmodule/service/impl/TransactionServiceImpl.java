@@ -8,6 +8,7 @@ import com.nagarro.transactionmodule.exception.InsufficientBalanceException;
 import com.nagarro.transactionmodule.request.MoneyRequest;
 import com.nagarro.transactionmodule.service.AccountServiceClient;
 import com.nagarro.transactionmodule.service.TransactionService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,11 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionDao transactionDao;
 
     @Override
+    @Transactional
     public AccountDTO depositMoney(MoneyRequest req) {
         AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(req.getAccountNumber());
         accountDTO.setBalance(accountDTO.getBalance() + req.getAmount());
-
+        accountServiceClient.updateBalannce(req.getAccountNumber(),accountDTO.getBalance());
         UserTransaction transaction = new UserTransaction();
         transaction.setTransactionType("DEPOSIT");
         transaction.setAmount(req.getAmount());
@@ -57,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BadRequestException("Please enter valid Amount", HttpStatus.BAD_REQUEST.value());
         }
         accountDTO.setBalance(accountDTO.getBalance() - req.getAmount());
-
+        accountServiceClient.updateBalannce(req.getAccountNumber(),accountDTO.getBalance());
         UserTransaction transaction = new UserTransaction();
         transaction.setTransactionType("WITHDRAW");
         transaction.setAmount(req.getAmount());
