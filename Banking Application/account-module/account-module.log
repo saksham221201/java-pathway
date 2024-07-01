@@ -42,3 +42,7 @@
 2024-07-01 12:45:05 [main] DEBUG c.n.a.AccountModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
 2024-07-01 12:45:05 [main] INFO  c.n.a.AccountModuleApplication - No active profile set, falling back to 1 default profile: "default"
 2024-07-01 12:45:12 [main] INFO  c.n.a.AccountModuleApplication - Started AccountModuleApplication in 7.145 seconds (process running for 8.058)
+2024-07-01 12:50:03 [main] INFO  c.n.a.AccountModuleApplication - Starting AccountModuleApplication using Java 19.0.2 with PID 11616 (D:\Java Pathway\Banking Application\account-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\account-module)
+2024-07-01 12:50:03 [main] DEBUG c.n.a.AccountModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-01 12:50:03 [main] INFO  c.n.a.AccountModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-01 12:50:09 [main] INFO  c.n.a.AccountModuleApplication - Started AccountModuleApplication in 7.191 seconds (process running for 7.891)
