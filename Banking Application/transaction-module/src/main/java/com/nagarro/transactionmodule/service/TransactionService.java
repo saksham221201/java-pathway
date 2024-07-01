@@ -4,7 +4,7 @@ import com.nagarro.transactionmodule.dto.AccountDTO;
 import com.nagarro.transactionmodule.request.MoneyRequest;
 
 public interface TransactionService {
-    AccountDTO addMoney(MoneyRequest req);
+    AccountDTO depositMoney(MoneyRequest req);
 
     AccountDTO withdrawMoney(MoneyRequest req);
 }

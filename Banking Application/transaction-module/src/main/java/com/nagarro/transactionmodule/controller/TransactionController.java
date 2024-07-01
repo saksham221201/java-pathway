@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/api/transactions")
 public class TransactionController {
-    
+
     @Autowired
     private TransactionService transactionService;
 
     @PostMapping("/deposit")
     public ResponseEntity<AccountDTO> addMoneyToAccount(@RequestBody MoneyRequest moneyRequest){
-        AccountDTO updatedAccount = transactionService.addMoney(moneyRequest);
+        AccountDTO updatedAccount = transactionService.depositMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
     }
 
