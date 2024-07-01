@@ -26,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public AccountDTO depositMoney(MoneyRequest req) {
         AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(req.getAccountNumber());
+        if (accountDTO == null) throw new BadRequestException("Account Number not found", HttpStatus.BAD_REQUEST.value());
         accountDTO.setBalance(accountDTO.getBalance() + req.getAmount());
 
         UserTransaction transaction = new UserTransaction();

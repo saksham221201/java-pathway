@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -61,7 +60,6 @@ public class AccountServiceImpl implements AccountService {
             throw new RecordNotFoundException("Account not Found with accountNumber: " + accountNumber,
                     HttpStatus.NOT_FOUND.value());
         }
-
         return accountOptional.get();
     }
 
