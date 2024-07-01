@@ -11,14 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class Account {
 
-    @GeneratedValue(generator = "UUID")
     @Id
-    private Long accountNumber;
-    private String name;
-    private String email;
-    private String mobile;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long accountId;
+    @Column(unique = true)
+    private int accountNumber;
     private Long customerId;
-    @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    private String accountType;
     private double balance;
 }
