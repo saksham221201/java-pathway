@@ -26,9 +26,12 @@ public class AccountController {
         return new ResponseEntity<>(newAccount, HttpStatus.CREATED);
     }
 
-    @GetMapping("/c")
-    public String home() {
-        return "home";
+    @GetMapping("/{accountNumber}")
+    public ResponseEntity<Account> getAccountDetailsByAccountNumber(@PathVariable int accountNumber){
+        logger.debug("Inside Get Account details");
+        Account accountDetails = accountService.getAccountDetailsByAccountNumber(accountNumber);
+        logger.debug("Account details fetched inside controller");
+        return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
 }
