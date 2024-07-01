@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MoneyRequest {
-    private Long accountNumber;
+    private int accountNumber;
     private String email;
     private double amount;
 }
