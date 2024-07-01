@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Transaction {
+public class UserTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
     private int accountNumber;
     private LocalDateTime timestamp;
-    private int deposit;
-    private int withdrawal;
-    private int balance;
+    private String transactionType;
+    private double amount;
+    private double balance;
 }
