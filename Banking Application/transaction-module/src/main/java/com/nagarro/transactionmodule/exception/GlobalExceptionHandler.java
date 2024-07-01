@@ -1,6 +1,8 @@
 package com.nagarro.transactionmodule.exception;
 
 import com.nagarro.transactionmodule.response.ErrorResponse;
+import feign.FeignException;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +17,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RecordAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> duplicateEntryExceptionHandler(RecordAlreadyExistsException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({FeignException.FeignClientException.class})
+    public ResponseEntity<ErrorResponse> feignClientExceptionHandler(Exception e){
+        ErrorResponse errorResponse = new ErrorResponse("Account Number Not found", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -43,5 +51,4 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-
 }

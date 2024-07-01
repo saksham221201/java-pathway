@@ -34,7 +34,7 @@ public class AccountController {
         return new ResponseEntity<>(accountDetails, HttpStatus.OK);
     }
 
-    @PatchMapping("/{accountNumber}")
+    @PutMapping("/{accountNumber}")
     public ResponseEntity<Account> updateBalance(@PathVariable int accountNumber, @RequestBody double balance) {
         logger.debug("Inside updateBalance");
         Account account = accountService.updateBalance(balance, accountNumber);

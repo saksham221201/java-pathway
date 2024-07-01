@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,12 +53,20 @@ public class UserController {
 	}
 
 	//Only admin can access and the user can access only their own.
-	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
+	// @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
 		logger.debug("Inside getUserById controller");
 		User fetchedUser = userService.getUserById(id);
 		logger.info("Fetched a user by id");
+		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
+	}
+
+	@GetMapping("/users/email/{email}")
+	public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email){
+		logger.debug("Inside getUserByEmail controller");
+		User fetchedUser = userService.getUserByEmail(email);
+		logger.info("Fetched a user by email");
 		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
 	}
 

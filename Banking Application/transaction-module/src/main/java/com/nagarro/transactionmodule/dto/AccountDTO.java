@@ -12,7 +12,7 @@ public class AccountDTO {
 
     private Long accountId;
     private int accountNumber;
-    private Long customerId;
+    private Long userId;
     private String accountType;
     private double balance;
 }
