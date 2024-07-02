@@ -4,6 +4,7 @@ import com.nagarro.accountmodule.constant.Constant;
 import com.nagarro.accountmodule.dao.AccountDao;
 import com.nagarro.accountmodule.dto.User;
 import com.nagarro.accountmodule.entity.Account;
+import com.nagarro.accountmodule.exception.BadRequestException;
 import com.nagarro.accountmodule.exception.EmptyInputException;
 import com.nagarro.accountmodule.exception.IllegalArgumentException;
 import com.nagarro.accountmodule.exception.RecordNotFoundException;
@@ -50,6 +51,9 @@ public class AccountServiceImpl implements AccountService {
         }
         logger.debug("Checking user id");
         User user = userServiceClient.getUserById(account.getUserId());
+        if (!user.getEmail().equals(account.getEmail())) {
+            throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
+        }
         logger.info("User is {}", user);
 
         account.setAccountNumber(generateAccountNumber());

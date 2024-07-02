@@ -1,7 +1,9 @@
 package com.nagarro.accountmodule.dto;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 public class User {
     private Long id;
     private String firstName;

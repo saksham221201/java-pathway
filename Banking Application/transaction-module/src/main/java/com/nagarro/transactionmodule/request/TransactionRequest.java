@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoneyRequest {
+public class TransactionRequest {
     private int accountNumber;
     private String email;
     private double amount;

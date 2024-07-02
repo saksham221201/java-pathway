@@ -1,10 +1,10 @@
 package com.nagarro.transactionmodule.service;
 
 import com.nagarro.transactionmodule.dto.AccountDTO;
-import com.nagarro.transactionmodule.request.MoneyRequest;
+import com.nagarro.transactionmodule.request.TransactionRequest;
 
 public interface TransactionService {
-    AccountDTO depositMoney(MoneyRequest req);
+    AccountDTO depositMoney(TransactionRequest transactionRequest);
 
-    AccountDTO withdrawMoney(MoneyRequest req);
+    AccountDTO withdrawMoney(TransactionRequest transactionRequest);
 }
