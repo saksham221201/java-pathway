@@ -1,6 +1,7 @@
 package com.nagarro.accountmodule.exception;
 
 import com.nagarro.accountmodule.response.ErrorResponse;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> illegalArgumentExceptionHandler(IllegalArgumentException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({FeignException.FeignClientException.class})
+    public ResponseEntity<ErrorResponse> feignClientExceptionHandler(Exception e){
+        ErrorResponse errorResponse = new ErrorResponse("User Not found with userId!!", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

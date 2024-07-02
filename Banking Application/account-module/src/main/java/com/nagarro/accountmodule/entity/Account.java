@@ -16,7 +16,7 @@ public class Account {
     private Long accountId;
     @Column(unique = true)
     private int accountNumber;
-    private Long customerId;
+    private Long userId;
     private String accountType;
     private double balance;
 }

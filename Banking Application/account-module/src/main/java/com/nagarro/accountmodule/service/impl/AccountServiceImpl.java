@@ -2,11 +2,13 @@ package com.nagarro.accountmodule.service.impl;
 
 import com.nagarro.accountmodule.constant.Constant;
 import com.nagarro.accountmodule.dao.AccountDao;
+import com.nagarro.accountmodule.dto.User;
 import com.nagarro.accountmodule.entity.Account;
 import com.nagarro.accountmodule.exception.EmptyInputException;
 import com.nagarro.accountmodule.exception.IllegalArgumentException;
 import com.nagarro.accountmodule.exception.RecordNotFoundException;
 import com.nagarro.accountmodule.service.AccountService;
+import com.nagarro.accountmodule.service.UserServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -25,6 +26,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDao accountDao;
+
+    @Autowired
+    private UserServiceClient userServiceClient;
 
     @Override
     public Account createAccount(Account account) {
@@ -37,13 +41,16 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // Checking if the accountType is valid or not
-        if (!account.getAccountType().equalsIgnoreCase(Constant.SAVING)
+        if (!account.getAccountType().equalsIgnoreCase(Constant.SAVINGS)
                 && !account.getAccountType().equalsIgnoreCase(Constant.CURRENT)
                 && !account.getAccountType().equalsIgnoreCase(Constant.FIXED)) {
             logger.error("Account Type is incorrect");
             throw new IllegalArgumentException(
-                    "AccountType must be " + Constant.SAVING + " or " + Constant.CURRENT + " or " + Constant.FIXED + "!", HttpStatus.BAD_REQUEST.value());
+                    "AccountType must be " + Constant.SAVINGS + " or " + Constant.CURRENT + " or " + Constant.FIXED + "!", HttpStatus.BAD_REQUEST.value());
         }
+        logger.debug("Checking user id");
+        User user = userServiceClient.getUserById(account.getUserId());
+        logger.info("User is {}", user);
 
         account.setAccountNumber(generateAccountNumber());
 
@@ -61,16 +68,15 @@ public class AccountServiceImpl implements AccountService {
             throw new RecordNotFoundException("Account not Found with accountNumber: " + accountNumber,
                     HttpStatus.NOT_FOUND.value());
         }
-
         return accountOptional.get();
     }
 
     @Override
-    public Account updateBalance(double balance,int accountNumber){
+    public Account updateBalance(double balance, int accountNumber){
         logger.debug("Inside updateBalance");
 
         if(accountDao.findByAccountNumber(accountNumber).isEmpty()){
-            logger.error("Inside updateBalance-Account not found with account number: ", accountNumber);
+            logger.error("Inside updateBalance - Account not found with account number: {}", accountNumber);
         }
         Account account = accountDao.findByAccountNumber(accountNumber).orElseThrow(()-> new RecordNotFoundException("Account not Found with accountNumber: " + accountNumber,
                 HttpStatus.NOT_FOUND.value()));

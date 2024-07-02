@@ -87,12 +87,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User seedAdmin(User user) {
+    public void seedAdmin(User user) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         logger.info("Password is encrypted inside seed Admin");
-        return userDao.save(user);
+        userDao.save(user);
     }
 
     @Override
