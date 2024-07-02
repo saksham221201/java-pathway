@@ -13,6 +13,7 @@ public class AccountDTO {
     private Long accountId;
     private int accountNumber;
     private Long userId;
+    private String email;
     private String accountType;
     private double balance;
 }

@@ -1,7 +1,7 @@
 package com.nagarro.transactionmodule.controller;
 
 import com.nagarro.transactionmodule.dto.AccountDTO;
-import com.nagarro.transactionmodule.request.MoneyRequest;
+import com.nagarro.transactionmodule.request.TransactionRequest;
 import com.nagarro.transactionmodule.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,13 +19,13 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/deposit")
-    public ResponseEntity<AccountDTO> addMoneyToAccount(@RequestBody MoneyRequest moneyRequest){
+    public ResponseEntity<AccountDTO> addMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
         AccountDTO updatedAccount = transactionService.depositMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<AccountDTO> withdrawMoneyToAccount(@RequestBody MoneyRequest moneyRequest){
+    public ResponseEntity<AccountDTO> withdrawMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
         AccountDTO updatedAccount = transactionService.withdrawMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
     }

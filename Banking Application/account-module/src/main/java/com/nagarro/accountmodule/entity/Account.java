@@ -17,6 +17,7 @@ public class Account {
     @Column(unique = true)
     private int accountNumber;
     private Long userId;
+    private String email;
     private String accountType;
     private double balance;
 }

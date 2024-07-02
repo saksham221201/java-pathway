@@ -20,9 +20,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({FeignException.FeignClientException.class})
+    @ExceptionHandler({FeignException.FeignClientException.class, FeignException.class})
     public ResponseEntity<ErrorResponse> feignClientExceptionHandler(Exception e){
-        ErrorResponse errorResponse = new ErrorResponse("Account Number Not found", HttpStatus.BAD_REQUEST.value());
+        ErrorResponse errorResponse = new ErrorResponse("Account Not found", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
