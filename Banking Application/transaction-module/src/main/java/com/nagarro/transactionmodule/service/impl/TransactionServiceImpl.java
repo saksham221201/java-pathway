@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -101,5 +102,11 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDao.save(transaction);
         logger.info("Withdrawal Transaction saved");
         return accountDTO;
+    }
+
+    @Override
+    public List<Transaction> getTransactions(int accountNumber) {
+        logger.debug("Inside Get Transactions by accountNumber");
+        return transactionDao.findByAccountNumber(accountNumber);
     }
 }
