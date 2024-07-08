@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -54,14 +55,6 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
 
-//        Transaction transaction = new Transaction();
-//        transaction.setTransactionType("DEPOSIT");
-//        transaction.setAmount(transactionRequest.getAmount());
-//        transaction.setAccountNumber(transactionRequest.getAccountNumber());
-//        transaction.setBalance(accountDTO.getBalance());
-//        transaction.setTimestamp(LocalDateTime.now());
-//
-//        transactionDao.save(transaction);
         saveTransaction(transactionRequest,accountDTO.getBalance(),"DEPOSIT");
         logger.info("Deposit Transaction saved");
 
@@ -101,17 +94,15 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
 
-//        Transaction transaction = new Transaction();
-//        transaction.setTransactionType("WITHDRAW");
-//        transaction.setAmount(transactionRequest.getAmount());
-//        transaction.setAccountNumber(transactionRequest.getAccountNumber());
-//        transaction.setBalance(accountDTO.getBalance());
-//        transaction.setTimestamp(LocalDateTime.now());
-//
-//        transactionDao.save(transaction);
         saveTransaction(transactionRequest,accountDTO.getBalance(),"WITHDRAW");
         logger.info("Withdrawal Transaction saved");
         return accountDTO;
+    }
+
+    @Override
+    public List<Transaction> getTransactions(int accountNumber) {
+        logger.debug("Inside Get Transactions by accountNumber");
+        return transactionDao.findByAccountNumber(accountNumber);
     }
 
     @Override
@@ -143,21 +134,13 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountServiceClient.updateBalance(transferRequest.getDebitAccountNumber(),accountDTODebit.getBalance());
 
-//        Transaction transaction = new Transaction();
-//        transaction.setTransactionType("WITHDRAW");
-//        transaction.setAmount(transactionRequest.getAmount());
-//        transaction.setAccountNumber(transactionRequest.getAccountNumber());
-//        transaction.setBalance(accountDTO.getBalance());
-//        transaction.setTimestamp(LocalDateTime.now());
-//
-//        transactionDao.save(transaction);
         TransactionRequest req1 = new TransactionRequest();
         req1.setAmount(transferRequest.getAmount());
         req1.setAccountNumber(transferRequest.getDebitAccountNumber());
         saveTransaction(req1,accountDTODebit.getBalance(),"TRANSFER WITHDRAWAL");
         logger.info("Transfer Withdrawal Transaction saved");
 
-        // Transfer desposit
+        // Transfer deposit
         TransactionRequest req2 = new TransactionRequest();
 
         AccountDTO accountDTOCredit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getCreditAccountNumber());
