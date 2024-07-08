@@ -45,6 +45,11 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
         }
 
+
+        if (accountDTO.getAccountType().equalsIgnoreCase("FIXED")) {
+            throw new BadRequestException("Cannot deposit to FIXED DEPOSIT Account", HttpStatus.BAD_REQUEST.value());
+        }
+
         accountDTO.setBalance(accountDTO.getBalance() + transactionRequest.getAmount());
         logger.debug("Amount added");
 
@@ -71,6 +76,12 @@ public class TransactionServiceImpl implements TransactionService {
         if (!accountDTO.getEmail().equals(transactionRequest.getEmail())) {
             logger.error("Invalid Account Details in withdraw money");
             throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
+        }
+
+        AccountDTO accountDetails = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
+
+        if (accountDetails.getAccountType().equalsIgnoreCase("FIXED")) {
+            throw new BadRequestException("Cannot withdraw from FIXED DEPOSIT Account", HttpStatus.BAD_REQUEST.value());
         }
 
         double initialBalance = accountDTO.getBalance();
