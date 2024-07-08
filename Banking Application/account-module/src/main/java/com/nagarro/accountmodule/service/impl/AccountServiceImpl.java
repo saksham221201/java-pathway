@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Random;
 
@@ -28,11 +29,18 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountDao accountDao;
 
+    private final HashMap<Integer, String> map = new HashMap<>();
+
     @Autowired
     private UserServiceClient userServiceClient;
 
     @Override
     public Account createAccount(Account account) {
+
+        map.put(1, Constant.SAVINGS);
+        map.put(2, Constant.CURRENT);
+        map.put(3, Constant.FIXED);
+
         logger.debug("Inside create account");
 
         // Checking if any of the fields is Empty
@@ -42,9 +50,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // Checking if the accountType is valid or not
-        if (!account.getAccountType().equalsIgnoreCase(Constant.SAVINGS)
-                && !account.getAccountType().equalsIgnoreCase(Constant.CURRENT)
-                && !account.getAccountType().equalsIgnoreCase(Constant.FIXED)) {
+        if (!map.containsValue(account.getAccountType())) {
             logger.error("Account Type is incorrect");
             throw new IllegalArgumentException(
                     "AccountType must be " + Constant.SAVINGS + " or " + Constant.CURRENT + " or " + Constant.FIXED + "!", HttpStatus.BAD_REQUEST.value());

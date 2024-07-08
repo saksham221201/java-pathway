@@ -86,6 +86,6 @@ public class UserController {
 		logger.debug("Inside delete Users Controller");
 		userService.deleteUser(id);
 		logger.info("Deleted user of id:{}", id);
-		return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
 	}
 }
