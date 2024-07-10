@@ -2,6 +2,7 @@ package com.nagarro.transactionmodule.service.impl;
 
 import com.nagarro.transactionmodule.dao.TransactionDao;
 import com.nagarro.transactionmodule.dto.AccountDTO;
+import com.nagarro.transactionmodule.dto.Mail;
 import com.nagarro.transactionmodule.dto.User;
 import com.nagarro.transactionmodule.entity.Transaction;
 import com.nagarro.transactionmodule.exception.BadRequestException;
@@ -9,6 +10,7 @@ import com.nagarro.transactionmodule.exception.InsufficientBalanceException;
 import com.nagarro.transactionmodule.request.TransactionRequest;
 import com.nagarro.transactionmodule.request.TransferRequest;
 import com.nagarro.transactionmodule.service.AccountServiceClient;
+import com.nagarro.transactionmodule.service.MailService;
 import com.nagarro.transactionmodule.service.TransactionService;
 import com.nagarro.transactionmodule.service.UserServiceClient;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,9 +35,13 @@ public class TransactionServiceImpl implements TransactionService {
     private UserServiceClient userServiceClient;
 
     @Autowired
+    private MailService mailService;
+
+    @Autowired
     private TransactionDao transactionDao;
 
     @Override
+    @Transactional
     public AccountDTO depositMoney(TransactionRequest transactionRequest) {
         logger.debug("Inside deposit Money");
 
@@ -53,6 +60,12 @@ public class TransactionServiceImpl implements TransactionService {
         accountDTO.setBalance(accountDTO.getBalance() + transactionRequest.getAmount());
         logger.debug("Amount added");
 
+        Mail mail = new Mail();
+        mail.setSubject("Bank Transaction - Money Deposited");
+        mail.setMessage("There was a transaction of Rs " + transactionRequest.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
+
+        mailService.sendMail(transactionRequest.getEmail(), mail);
+
         accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
 
         saveTransaction(transactionRequest,accountDTO.getBalance(),"DEPOSIT");
@@ -62,6 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public AccountDTO withdrawMoney(TransactionRequest transactionRequest) {
         logger.debug("Inside withdraw Money");
         AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
@@ -91,6 +105,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         accountDTO.setBalance(accountDTO.getBalance() - transactionRequest.getAmount());
+
+        Mail mail = new Mail();
+        mail.setSubject("Bank Transaction - Money Withdraw");
+        mail.setMessage("There was a transaction of Rs " + transactionRequest.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
+
+        mailService.sendMail(transactionRequest.getEmail(), mail);
 
         accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
 
