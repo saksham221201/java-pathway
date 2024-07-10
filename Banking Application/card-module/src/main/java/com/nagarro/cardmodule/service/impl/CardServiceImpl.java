@@ -8,6 +8,7 @@ import com.nagarro.cardmodule.dto.User;
 import com.nagarro.cardmodule.entity.Card;
 import com.nagarro.cardmodule.exception.BadRequestException;
 import com.nagarro.cardmodule.exception.EmptyInputException;
+import com.nagarro.cardmodule.request.ActivationStatusRequest;
 import com.nagarro.cardmodule.service.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -41,9 +44,9 @@ public class CardServiceImpl implements CardService {
             throw new EmptyInputException("Input cannot be Null!", HttpStatus.BAD_REQUEST.value());
         }
 
-        logger.info("This is account Number: {}", card.getAccountNo());
+        logger.info("This is account Number: {}", card.getAccountNumber());
 
-        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(card.getAccountNo());
+        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(card.getAccountNumber());
         if (!accountDTO.getEmail().equals(card.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
@@ -67,7 +70,22 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Card activateOrDeactivateCard(boolean request) {
-        return null;
+    public Card activateOrDeactivateCard(ActivationStatusRequest activationStatusRequest) {
+        logger.debug("Inside activate card");
+
+        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(activationStatusRequest.getAccountNumber());
+        if (!accountDTO.getEmail().equals(activationStatusRequest.getEmail())) {
+            throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
+        }
+
+        Optional<Card> optionalCard = cardDao.findById(activationStatusRequest.getId());
+        if (optionalCard.isEmpty()) {
+            throw new BadRequestException("Card does not exist", HttpStatus.BAD_REQUEST.value());
+        }
+        Card card = optionalCard.get();
+        logger.debug("Card Status Before: {}", card.isActivationStatus());
+        card.setActivationStatus(activationStatusRequest.isActivationStatus());
+        logger.debug("Card Status After: {}", card.isActivationStatus());
+        return card;
     }
 }

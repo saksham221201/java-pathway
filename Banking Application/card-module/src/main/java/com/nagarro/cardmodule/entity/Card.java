@@ -18,7 +18,7 @@ public class Card {
     private String email;
     private String cvv;
     private Long expenseLimit;
-    private int accountNo;
+    private int accountNumber;
     private boolean activationStatus;
 
     @Enumerated(EnumType.STRING)
