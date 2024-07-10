@@ -1,4 +1,4 @@
-package com.nagarro.transactionmodule.dto;
+package com.nagarro.cardmodule.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
