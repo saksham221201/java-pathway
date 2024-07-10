@@ -39,14 +39,14 @@ public class TransactionController {
     }
 
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<List<Transaction>> getTransactionsByAccountNumber(@PathVariable int accountNumber) {
+    public ResponseEntity<List<Transaction>> getTransactionsByAccountNumber(@PathVariable String accountNumber) {
         List<Transaction> transactions = transactionService.getTransactions(accountNumber);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
 
     @GetMapping("/export/pdf/{accountNumber}")
-    public void exportToPDF(HttpServletResponse response, @PathVariable int accountNumber) throws DocumentException, IOException {
+    public void exportToPDF(HttpServletResponse response, @PathVariable String accountNumber) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         LocalDateTime currentDateTime = LocalDateTime.now();
 

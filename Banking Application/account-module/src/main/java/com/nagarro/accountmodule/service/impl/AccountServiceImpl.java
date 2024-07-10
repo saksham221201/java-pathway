@@ -18,13 +18,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
-    private final Random random = new Random();
 
     @Autowired
     private AccountDao accountDao;
@@ -62,14 +60,12 @@ public class AccountServiceImpl implements AccountService {
         }
         logger.info("User is {}", user);
 
-        account.setAccountNumber(generateAccountNumber());
-
         logger.info("Account created");
         return accountDao.save(account);
     }
 
     @Override
-    public Account getAccountDetailsByAccountNumber(int accountNumber) {
+    public Account getAccountDetailsByAccountNumber(String accountNumber) {
         logger.debug("Inside getAccountDetails");
         // Checking if the account with the accountNumber exists or not
         Optional<Account> accountOptional = accountDao.findByAccountNumber(accountNumber);
@@ -82,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateBalance(double balance, int accountNumber){
+    public Account updateBalance(double balance, String accountNumber){
         logger.debug("Inside updateBalance");
 
         if(accountDao.findByAccountNumber(accountNumber).isEmpty()){
@@ -93,9 +89,5 @@ public class AccountServiceImpl implements AccountService {
 
         account.setBalance(balance);
         return accountDao.save(account);
-    }
-
-    private int generateAccountNumber() {
-        return 100000 + random.nextInt(900000);
     }
 }

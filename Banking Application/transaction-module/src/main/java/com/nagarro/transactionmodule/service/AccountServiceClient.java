@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 public interface AccountServiceClient {
 
     @GetMapping("/v1/api/accounts/{accountNumber}")
-    AccountDTO getAccountDetailsByAccountNumber(@PathVariable("accountNumber") int accountNumber);
+    AccountDTO getAccountDetailsByAccountNumber(@PathVariable("accountNumber") String accountNumber);
 
     @PutMapping("/v1/api/accounts/{accountNumber}")
-    AccountDTO updateBalance(@PathVariable("accountNumber") int accountNumber, @RequestBody double balance);
+    AccountDTO updateBalance(@PathVariable("accountNumber") String accountNumber, @RequestBody double balance);
 }
