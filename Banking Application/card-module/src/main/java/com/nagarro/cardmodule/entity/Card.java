@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cards {
+public class Card {
 
     private String id;
     private String name;
+    private String email;
     private int cvv;
     private Long limit;
     private int accountNo;
