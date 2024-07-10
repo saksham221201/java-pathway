@@ -1,7 +1,6 @@
 package com.nagarro.cardmodule.entity;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,15 +8,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Card {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
-    private int cvv;
-    private Long limit;
+    private String cvv;
+    private Long expenseLimit;
     private int accountNo;
-    private boolean status;
+    private boolean activationStatus;
 
     @Enumerated(EnumType.STRING)
     private CardType cardType;
