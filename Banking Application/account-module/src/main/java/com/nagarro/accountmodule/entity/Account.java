@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @AllArgsConstructor
@@ -12,10 +13,9 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
-    @Column(unique = true)
-    private int accountNumber;
+    @GeneratedValue(generator = "custom-id-generator")
+    @GenericGenerator(name = "custom-id-generator",strategy = "com.nagarro.accountmodule.entity.CustomIdGenerator")
+    private String accountNumber;
     private Long userId;
     private String email;
     private String accountType;
