@@ -6,6 +6,6 @@ import lombok.Data;
 public class ActivationStatusRequest {
     private Long id;
     private String email;
-    private int accountNumber;
+    private String accountNumber;
     private boolean activationStatus;
 }

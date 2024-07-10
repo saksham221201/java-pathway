@@ -12,7 +12,7 @@ public interface TransactionService {
 
     AccountDTO withdrawMoney(TransactionRequest transactionRequest);
 
-    List<Transaction> getTransactions(int accountNumber);
+    List<Transaction> getTransactions(String accountNumber);
 
     AccountDTO transferMoney(TransferRequest transferRequest);
 }

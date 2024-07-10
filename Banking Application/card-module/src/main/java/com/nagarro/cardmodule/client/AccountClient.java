@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface AccountClient {
 
     @GetMapping("/v1/api/accounts/{accountNumber}")
-    AccountDTO getAccountDetailsByAccountNumber(@PathVariable int accountNumber);
+    AccountDTO getAccountDetailsByAccountNumber(@PathVariable String accountNumber);
 }

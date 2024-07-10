@@ -27,7 +27,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<Account> getAccountDetailsByAccountNumber(@PathVariable int accountNumber){
+    public ResponseEntity<Account> getAccountDetailsByAccountNumber(@PathVariable String accountNumber){
         logger.debug("Inside Get Account details");
         Account accountDetails = accountService.getAccountDetailsByAccountNumber(accountNumber);
         logger.debug("Account details fetched inside controller");
@@ -35,7 +35,7 @@ public class AccountController {
     }
 
     @PutMapping("/{accountNumber}")
-    public ResponseEntity<Account> updateBalance(@PathVariable int accountNumber, @RequestBody double balance) {
+    public ResponseEntity<Account> updateBalance(@PathVariable String accountNumber, @RequestBody double balance) {
         logger.debug("Inside updateBalance");
         Account account = accountService.updateBalance(balance, accountNumber);
         logger.debug("Balance updated");

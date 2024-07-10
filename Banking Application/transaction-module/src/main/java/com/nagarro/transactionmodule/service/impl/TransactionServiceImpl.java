@@ -120,7 +120,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactions(int accountNumber) {
+    public List<Transaction> getTransactions(String accountNumber) {
         logger.debug("Inside Get Transactions by accountNumber");
         return transactionDao.findByAccountNumber(accountNumber);
     }
