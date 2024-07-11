@@ -8,7 +8,9 @@ import com.nagarro.cardmodule.dto.User;
 import com.nagarro.cardmodule.entity.Card;
 import com.nagarro.cardmodule.exception.BadRequestException;
 import com.nagarro.cardmodule.exception.EmptyInputException;
+import com.nagarro.cardmodule.exception.RecordNotFoundException;
 import com.nagarro.cardmodule.request.ActivationStatusRequest;
+import com.nagarro.cardmodule.request.ReportLostCardRequest;
 import com.nagarro.cardmodule.service.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -58,13 +61,14 @@ public class CardServiceImpl implements CardService {
             throw new BadRequestException("Name is not valid, please enter full Name", HttpStatus.BAD_REQUEST.value());
         }
 
-        String cvvString = String.valueOf(card.getCvv());
+        card.setExpiryDate(LocalDate.now().plusYears(10));
+
         // Encrypting the Password
-         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-         String encryptedCvv = bCryptPasswordEncoder.encode(card.getCvv());
-         card.setCvv(encryptedCvv);
-         logger.info("Hashed: " + encryptedCvv);
-         logger.info("CVV is encrypted inside Issue Card");
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encryptedCvv = bCryptPasswordEncoder.encode(card.getCvv());
+        card.setCvv(encryptedCvv);
+        logger.info("Hashed: " + encryptedCvv);
+        logger.info("CVV is encrypted inside Issue Card");
 
         return cardDao.save(card);
     }
@@ -78,7 +82,7 @@ public class CardServiceImpl implements CardService {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
 
-        Optional<Card> optionalCard = cardDao.findById(activationStatusRequest.getId());
+        Optional<Card> optionalCard = cardDao.findById(activationStatusRequest.getCardNumber());
         if (optionalCard.isEmpty()) {
             throw new BadRequestException("Card does not exist", HttpStatus.BAD_REQUEST.value());
         }
@@ -87,5 +91,22 @@ public class CardServiceImpl implements CardService {
         card.setActivationStatus(activationStatusRequest.isActivationStatus());
         logger.debug("Card Status After: {}", card.isActivationStatus());
         return card;
+    }
+
+    @Override
+    public Card reportLostCard(ReportLostCardRequest reportLostCardRequest) {
+        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(reportLostCardRequest.getAccountNumber());
+        if (!accountDTO.getEmail().equals(reportLostCardRequest.getEmail())) {
+            throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
+        }
+
+        Optional<Card> optionalCard = cardDao.findById(reportLostCardRequest.getCardNumber());
+        if (optionalCard.isEmpty()) {
+            throw new RecordNotFoundException("Card not found with card number: " + reportLostCardRequest.getCardNumber(), HttpStatus.NOT_FOUND.value());
+        }
+        Card card = optionalCard.get();
+        card.setLost(true);
+        card.setActivationStatus(false);
+        return cardDao.save(card);
     }
 }
