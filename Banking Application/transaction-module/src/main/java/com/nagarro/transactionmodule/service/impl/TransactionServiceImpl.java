@@ -128,7 +128,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public AccountDTO transferMoney(TransferRequest transferRequest){
         logger.debug("Inside transfer Money");
-        AccountDTO accountDTODebit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getDebitAccountNumber());
+        AccountDTO accountDTODebit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getAccountNumber());
 
         if (!accountDTODebit.getEmail().equals(transferRequest.getEmail())) {
             logger.error("Invalid Account Details in transfer money");
@@ -152,11 +152,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountDTODebit.setBalance(accountDTODebit.getBalance() - transferRequest.getAmount());
 
-        accountServiceClient.updateBalance(transferRequest.getDebitAccountNumber(),accountDTODebit.getBalance());
+        accountServiceClient.updateBalance(transferRequest.getAccountNumber(),accountDTODebit.getBalance());
 
         TransactionRequest req1 = new TransactionRequest();
         req1.setAmount(transferRequest.getAmount());
-        req1.setAccountNumber(transferRequest.getDebitAccountNumber());
+        req1.setAccountNumber(transferRequest.getAccountNumber());
         saveTransaction(req1,accountDTODebit.getBalance(),"TRANSFER WITHDRAWAL");
         logger.info("Transfer Withdrawal Transaction saved");
 
