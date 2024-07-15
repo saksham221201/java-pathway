@@ -109,4 +109,10 @@ public class CardServiceImpl implements CardService {
         card.setActivationStatus(false);
         return cardDao.save(card);
     }
+
+    public Card getCardDetails(String cardNumber){
+        Card card = cardDao.findById(cardNumber).orElseThrow(() -> new RecordNotFoundException("No card found for cardNumber",HttpStatus.BAD_REQUEST.value()));
+
+        return card;
+    }
 }

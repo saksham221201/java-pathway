@@ -1,4 +1,4 @@
-package com.nagarro.transactionmodule.service;
+package com.nagarro.transactionmodule.client;
 
 import com.nagarro.transactionmodule.dto.User;
 import org.springframework.cloud.openfeign.FeignClient;

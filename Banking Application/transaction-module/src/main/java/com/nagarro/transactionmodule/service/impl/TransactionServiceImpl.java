@@ -2,17 +2,19 @@ package com.nagarro.transactionmodule.service.impl;
 
 import com.nagarro.transactionmodule.dao.TransactionDao;
 import com.nagarro.transactionmodule.dto.AccountDTO;
+import com.nagarro.transactionmodule.dto.CardDTO;
 import com.nagarro.transactionmodule.dto.Mail;
 import com.nagarro.transactionmodule.dto.User;
 import com.nagarro.transactionmodule.entity.Transaction;
 import com.nagarro.transactionmodule.exception.BadRequestException;
 import com.nagarro.transactionmodule.exception.InsufficientBalanceException;
+import com.nagarro.transactionmodule.request.CardTransaction;
 import com.nagarro.transactionmodule.request.TransactionRequest;
 import com.nagarro.transactionmodule.request.TransferRequest;
-import com.nagarro.transactionmodule.service.AccountServiceClient;
+import com.nagarro.transactionmodule.client.AccountServiceClient;
 import com.nagarro.transactionmodule.service.MailService;
 import com.nagarro.transactionmodule.service.TransactionService;
-import com.nagarro.transactionmodule.service.UserServiceClient;
+import com.nagarro.transactionmodule.client.UserServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +175,56 @@ public class TransactionServiceImpl implements TransactionService {
         logger.info("Transfer Deposit Transaction saved");
 
         return accountDTODebit;
+    }
+
+    @Override
+    @Transactional
+    public AccountDTO cardWithdrawal(CardTransaction cardTransaction) {
+        logger.debug("Inside card withdraw");
+        AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(cardTransaction.getAccountNumber());
+
+        if (!accountDTO.getEmail().equals(cardTransaction.getEmail())) {
+            logger.error("Invalid Account Details in card withdrawal");
+            throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
+        }
+
+        if (accountDTO.getAccountType().equalsIgnoreCase("FIXED")) {
+            throw new BadRequestException("Cannot withdraw from FIXED Account", HttpStatus.BAD_REQUEST.value());
+        }
+
+        double initialBalance = accountDTO.getBalance();
+
+        // Checking if the amount to be withdrawn is greater than the present balance or not
+        if (initialBalance < cardTransaction.getAmount()) {
+            logger.error("Not enough Balance for card withdrawal!! Cannot withdraw money");
+            throw new InsufficientBalanceException("Not enough balance for card withdrawal!! Cannot withdraw money",
+                    HttpStatus.BAD_REQUEST.value());
+        }
+
+        // Checking if the amount to be withdrawn in the account is valid or not
+        if (cardTransaction.getAmount() <= 0) {
+            logger.error("Please enter valid Amount in card withdrawal");
+            throw new BadRequestException("Please enter valid Amount", HttpStatus.BAD_REQUEST.value());
+        }
+
+        accountDTO.setBalance(accountDTO.getBalance() - cardTransaction.getAmount());
+
+        Mail mail = new Mail();
+        mail.setSubject("Bank Transaction - Money Withdrawn from card");
+        mail.setMessage("There was a transaction of Rs " + cardTransaction.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
+
+        mailService.sendMail(cardTransaction.getEmail(), mail);
+
+        accountServiceClient.updateBalance(cardTransaction.getAccountNumber(),accountDTO.getBalance());
+
+        TransactionRequest req = new TransactionRequest();
+        req.setAmount(cardTransaction.getAmount());
+        req.setEmail(cardTransaction.getEmail());
+        req.setAccountNumber(cardTransaction.getAccountNumber());
+
+        saveTransaction(req,accountDTO.getBalance(),"CARD WITHDRAWAL");
+        logger.info("Card Withdrawal Transaction saved");
+        return accountDTO;
     }
 
     private void saveTransaction(TransactionRequest req, Double balance, String transactionType){
