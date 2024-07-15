@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferRequest {
-    private String debitAccountNumber;
+    private String accountNumber;
     private String creditAccountNumber;
     private String email;
     private double amount;

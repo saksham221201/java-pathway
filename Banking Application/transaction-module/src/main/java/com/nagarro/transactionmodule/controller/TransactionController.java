@@ -5,6 +5,7 @@ import com.nagarro.transactionmodule.dto.AccountDTO;
 import com.nagarro.transactionmodule.entity.Transaction;
 import com.nagarro.transactionmodule.exporter.PDFExporter;
 import com.nagarro.transactionmodule.request.TransactionRequest;
+import com.nagarro.transactionmodule.request.TransferRequest;
 import com.nagarro.transactionmodule.service.TransactionService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class TransactionController {
     public ResponseEntity<AccountDTO> withdrawMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
         AccountDTO updatedAccount = transactionService.withdrawMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<AccountDTO> transferMoney(@RequestBody TransferRequest transferRequest){
+        AccountDTO transferMoney = transactionService.transferMoney(transferRequest);
+        return new ResponseEntity<>(transferMoney, HttpStatus.OK);
     }
 
     @GetMapping("/{accountNumber}")
