@@ -4,6 +4,7 @@ import com.lowagie.text.DocumentException;
 import com.nagarro.transactionmodule.dto.AccountDTO;
 import com.nagarro.transactionmodule.entity.Transaction;
 import com.nagarro.transactionmodule.exporter.PDFExporter;
+import com.nagarro.transactionmodule.request.CardTransaction;
 import com.nagarro.transactionmodule.request.TransactionRequest;
 import com.nagarro.transactionmodule.request.TransferRequest;
 import com.nagarro.transactionmodule.service.TransactionService;
@@ -37,6 +38,12 @@ public class TransactionController {
     public ResponseEntity<AccountDTO> withdrawMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
         AccountDTO updatedAccount = transactionService.withdrawMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+    }
+
+    @PostMapping("/card/withdraw")
+    public ResponseEntity<AccountDTO> withdrawMoneyWithCard(@RequestBody CardTransaction cardTransaction){
+        AccountDTO updatedAccount = transactionService.cardWithdrawal(cardTransaction);
+        return new ResponseEntity<>(updatedAccount,HttpStatus.OK);
     }
 
     @PostMapping("/transfer")

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReportLostCardRequest {
-    private Long cardNumber;
+    private String cardNumber;
     private String email;
     private String accountNumber;
 }

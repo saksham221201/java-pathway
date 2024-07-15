@@ -8,4 +8,5 @@ public interface CardService {
     Card issueCard(Card card);
     Card activateOrDeactivateCard(ActivationStatusRequest activationStatusRequest);
     Card reportLostCard(ReportLostCardRequest reportLostCardRequest);
+    Card getCardDetails(String cardNumber);
 }
