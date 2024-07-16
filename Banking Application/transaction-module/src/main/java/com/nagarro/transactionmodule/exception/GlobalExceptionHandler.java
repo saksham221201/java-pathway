@@ -19,6 +19,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(LimitExceededException.class)
+    public ResponseEntity<ErrorResponse> LimitExceededExceptionHandler(LimitExceededException e){
+        ErrorResponse errorResponse = new ErrorResponse(e.getError(), e.getCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler({FeignException.FeignClientException.class, FeignException.class})
     public ResponseEntity<ErrorResponse> feignClientExceptionHandler(Exception e){
         ErrorResponse errorResponse = new ErrorResponse("Account Not found", HttpStatus.BAD_REQUEST.value());
