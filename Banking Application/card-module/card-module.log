@@ -1,0 +1,4 @@
+2024-07-16 11:43:57 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 17.0.11 with PID 28100 (C:\Users\kamadnayyar\OneDrive - Nagarro\Desktop\java-pathway\java-pathway\Banking Application\card-module\target\classes started by kamadnayyar in C:\Users\kamadnayyar\OneDrive - Nagarro\Desktop\java-pathway\java-pathway\Banking Application\card-module)
+2024-07-16 11:43:57 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-16 11:43:57 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-16 11:44:11 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 15.38 seconds (process running for 17.01)
