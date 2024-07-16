@@ -1,5 +1,6 @@
 package com.nagarro.transactionmodule.service.impl;
 
+import com.nagarro.transactionmodule.client.CardServiceClient;
 import com.nagarro.transactionmodule.dao.TransactionDao;
 import com.nagarro.transactionmodule.dto.AccountDTO;
 import com.nagarro.transactionmodule.dto.CardDTO;
@@ -7,7 +8,9 @@ import com.nagarro.transactionmodule.dto.Mail;
 import com.nagarro.transactionmodule.dto.User;
 import com.nagarro.transactionmodule.entity.Transaction;
 import com.nagarro.transactionmodule.exception.BadRequestException;
+import com.nagarro.transactionmodule.exception.EmptyInputException;
 import com.nagarro.transactionmodule.exception.InsufficientBalanceException;
+import com.nagarro.transactionmodule.exception.LimitExceededException;
 import com.nagarro.transactionmodule.request.CardTransaction;
 import com.nagarro.transactionmodule.request.TransactionRequest;
 import com.nagarro.transactionmodule.request.TransferRequest;
@@ -19,9 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,6 +40,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private UserServiceClient userServiceClient;
+
+    @Autowired
+    private CardServiceClient cardServiceClient;
 
     @Autowired
     private MailService mailService;
@@ -181,6 +189,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public AccountDTO cardWithdrawal(CardTransaction cardTransaction) {
         logger.debug("Inside card withdraw");
+
+        // Checking if any of the fields is Empty or not
+        if(cardTransaction.getEmail().isBlank() || cardTransaction.getCardNumber().isBlank() || cardTransaction.getAccountNumber().isBlank() || cardTransaction.getCvv().isBlank()){
+            logger.error("Inputs are blank in card withdrawal");
+            throw new EmptyInputException("Input cannot be null!!", HttpStatus.BAD_REQUEST.value());
+        }
         AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(cardTransaction.getAccountNumber());
 
         if (!accountDTO.getEmail().equals(cardTransaction.getEmail())) {
@@ -190,6 +204,32 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (accountDTO.getAccountType().equalsIgnoreCase("FIXED")) {
             throw new BadRequestException("Cannot withdraw from FIXED Account", HttpStatus.BAD_REQUEST.value());
+        }
+
+        CardDTO cardDetails = cardServiceClient.getCardDetails(cardTransaction.getCardNumber()).getBody();
+        logger.info("CVV: {}", cardDetails.getCvv());
+        logger.info("CardTransaction CVV: {}", cardTransaction.getCvv());
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        logger.debug(String.valueOf(bCryptPasswordEncoder.matches(cardTransaction.getCvv(), cardDetails.getCvv())));
+        if (!bCryptPasswordEncoder.matches(cardTransaction.getCvv(), cardDetails.getCvv())) {
+            throw new BadRequestException("CVV is not matching", HttpStatus.BAD_REQUEST.value());
+        }
+
+
+        // Checking for Daily limit of the CARD
+        List<Transaction> transactions = getTransactions(cardTransaction.getAccountNumber());
+        logger.info(transactions.toString());
+        double sum = transactions.stream()
+                .filter(transaction -> LocalDate.now().equals(transaction.getTimestamp()
+                        .toLocalDate()) && "CARD WITHDRAWAL"
+                        .equals(transaction.getTransactionType()))
+                .mapToDouble(Transaction::getAmount).sum();
+
+        logger.info(String.valueOf(sum));
+
+        if (sum + cardTransaction.getAmount() > cardDetails.getDailyLimit()) {
+            throw new LimitExceededException("Daily limit exceeded", HttpStatus.FORBIDDEN.value());
         }
 
         double initialBalance = accountDTO.getBalance();
@@ -236,5 +276,12 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTimestamp(LocalDateTime.now());
 
         transactionDao.save(transaction);
+    }
+
+    private static boolean isRecentTransaction(Transaction transaction) {
+        // date is stored like this: `2022-05-16 20:54:48.110`
+        // we need the first part representing the current date in accordance with ISO-8601
+        String date = String.valueOf(transaction.getTimestamp().toLocalDate());
+        return LocalDate.now().isEqual(LocalDate.parse(date));
     }
 }

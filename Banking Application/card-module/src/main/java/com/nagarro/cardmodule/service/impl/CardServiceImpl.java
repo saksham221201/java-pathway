@@ -111,8 +111,6 @@ public class CardServiceImpl implements CardService {
     }
 
     public Card getCardDetails(String cardNumber){
-        Card card = cardDao.findById(cardNumber).orElseThrow(() -> new RecordNotFoundException("No card found for cardNumber",HttpStatus.BAD_REQUEST.value()));
-
-        return card;
+        return cardDao.findById(cardNumber).orElseThrow(() -> new RecordNotFoundException("No card found for cardNumber",HttpStatus.BAD_REQUEST.value()));
     }
 }
