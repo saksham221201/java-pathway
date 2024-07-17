@@ -30,7 +30,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.GET).permitAll()
                         .requestMatchers("/v1/api/auth/login").permitAll()
-                        .requestMatchers("/v1/api/users").permitAll()
+                        .requestMatchers("/v1/api/users/new").permitAll()
                         .anyRequest().authenticated()
                 );
 

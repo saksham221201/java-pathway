@@ -49,8 +49,6 @@ public class UserServiceImpl implements UserService {
         }
 
         // Encrypting the Password
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside Add users");
         user.setRole(Role.USER);
@@ -75,8 +73,6 @@ public class UserServiceImpl implements UserService {
             throw new RecordAlreadyExistsException("Admin already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
 
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside Add Admin");
         user.setRole(Role.ADMIN);
@@ -88,8 +84,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void seedAdmin(User user) {
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside seed Admin");
         userDao.save(user);
@@ -97,33 +91,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        logger.debug("Inside getting all users");
         return userDao.findAll();
     }
 
     @Override
-    //value specifies what cache to use i.e. name of cache
-    //key is the search parameter if userId found then return otherwise stored in cache
+    // Value specifies what cache to use i.e. name of cache
+    // Key is the search parameter if userId found then return otherwise stored in cache
     @Cacheable(value = "users", key = "#userId")
     public User getUserById(Long userId) {
-
-        logger.debug("Inside getting user by userId");
-
         // Checking if the user with the given userId already exists or not
         Optional<User> optionalUser = userDao.findById(userId);
         if(optionalUser.isEmpty()){
             logger.error("User not found with id:{} inside getUserById", userId);
             throw new RecordNotFoundException("User not found with id: " + userId, HttpStatus.NOT_FOUND.value());
         }
-
         return optionalUser.get();
     }
 
     @Override
     public User getUserByEmail(String email) {
-
-        logger.debug("Inside getting user by email");
-
         Optional<User> optionalUser = userDao.findByEmail(email);
         if(optionalUser.isEmpty()){
             logger.error("User not found with email:{}", email);
@@ -132,11 +118,10 @@ public class UserServiceImpl implements UserService {
         return optionalUser.get();
     }
 
+
     @Override
     @CachePut(value = "users", key = "#userId")
     public User updateUser(Long userId, User user) {
-        logger.debug("Inside update User");
-
         // Checking if any of the inputs is null
         if(user.getEmail().isBlank() || user.getFirstName().isBlank() || user.getLastName().isBlank() || user.getPassword().isBlank() || user.getMobile().isBlank()){
             logger.error("Inputs are blank in updateUser");
@@ -163,11 +148,7 @@ public class UserServiceImpl implements UserService {
         updateUser.setLastName(user.getLastName());
 
         // Encrypting the Password
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         updateUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        logger.info("Password is encrypted inside update Users");
-
         logger.info("User updated Successfully");
 
         // Updating the user in the database
@@ -177,16 +158,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = "users", key = "#userId")
     public void deleteUser(Long userId) {
-        logger.debug("Inside Delete Users");
-
         // Checking if the user with the given id already exists or not
         Optional<User> existingUser = userDao.findById(userId);
         if(existingUser.isEmpty()){
             logger.error("User not found with userId:{} inside deleteUser", userId);
             throw new RecordNotFoundException("User not found with id: " + userId, HttpStatus.NOT_FOUND.value());
         }
-
-        logger.info("User deleted");
         userDao.deleteById(userId);
     }
 }

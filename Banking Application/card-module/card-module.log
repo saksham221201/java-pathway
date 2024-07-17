@@ -8,3 +8,14 @@
 2024-07-16 12:04:00 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 14.719 seconds (process running for 17.013)
 2024-07-16 12:04:04 [http-nio-8087-exec-1] DEBUG c.n.c.service.impl.CardServiceImpl - Inside issue card
 2024-07-16 12:04:04 [http-nio-8087-exec-1] INFO  c.n.c.service.impl.CardServiceImpl - This is account Number: 12345364357
+2024-07-17 11:23:57 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 728 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-17 11:23:57 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-17 11:23:57 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-17 11:24:01 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 2012 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-17 11:24:01 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-17 11:24:01 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-17 11:24:07 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 10.605 seconds (process running for 11.326)
+2024-07-17 11:24:27 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 26928 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-17 11:24:27 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-17 11:24:27 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-17 11:24:33 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 6.882 seconds (process running for 7.536)

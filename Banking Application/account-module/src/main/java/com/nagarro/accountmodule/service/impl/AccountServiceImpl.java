@@ -24,22 +24,22 @@ public class AccountServiceImpl implements AccountService {
 
     private final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
-    @Autowired
-    private AccountDao accountDao;
+    private final AccountDao accountDao;
+    private final UserServiceClient userServiceClient;
 
     private final HashMap<Integer, String> map = new HashMap<>();
 
     @Autowired
-    private UserServiceClient userServiceClient;
+    public AccountServiceImpl(AccountDao accountDao, UserServiceClient userServiceClient) {
+        this.accountDao = accountDao;
+        this.userServiceClient = userServiceClient;
+    }
 
     @Override
     public Account createAccount(Account account) {
-
         map.put(1, Constant.SAVINGS);
         map.put(2, Constant.CURRENT);
         map.put(3, Constant.FIXED);
-
-        logger.debug("Inside create account");
 
         // Checking if any of the fields is Empty
         if (account.getAccountType().isEmpty()) {
@@ -53,20 +53,15 @@ public class AccountServiceImpl implements AccountService {
             throw new IllegalArgumentException(
                     "AccountType must be " + Constant.SAVINGS + " or " + Constant.CURRENT + " or " + Constant.FIXED + "!", HttpStatus.BAD_REQUEST.value());
         }
-        logger.debug("Checking user id");
-        User user = userServiceClient.getUserById(account.getUserId());
-        if (!user.getEmail().equals(account.getEmail())) {
+        final User user = userServiceClient.getUserById(account.getUserId());
+        if (!user.getEmail().equalsIgnoreCase(account.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
-        logger.info("User is {}", user);
-
-        logger.info("Account created");
         return accountDao.save(account);
     }
 
     @Override
     public Account getAccountDetailsByAccountNumber(String accountNumber) {
-        logger.debug("Inside getAccountDetails");
         // Checking if the account with the accountNumber exists or not
         Optional<Account> accountOptional = accountDao.findByAccountNumber(accountNumber);
         if (accountOptional.isEmpty()) {
@@ -79,11 +74,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateBalance(double balance, String accountNumber){
-        logger.debug("Inside updateBalance");
-
-        if(accountDao.findByAccountNumber(accountNumber).isEmpty()){
-            logger.error("Inside updateBalance - Account not found with account number: {}", accountNumber);
-        }
         Account account = accountDao.findByAccountNumber(accountNumber).orElseThrow(()-> new RecordNotFoundException("Account not Found with accountNumber: " + accountNumber,
                 HttpStatus.NOT_FOUND.value()));
 
