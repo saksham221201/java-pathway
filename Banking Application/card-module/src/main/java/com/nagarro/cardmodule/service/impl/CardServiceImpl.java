@@ -27,14 +27,18 @@ public class CardServiceImpl implements CardService {
 
     private final Logger logger = LoggerFactory.getLogger(CardServiceImpl.class);
 
-    @Autowired
-    private CardDao cardDao;
+    private final CardDao cardDao;
+
+    private final AccountClient accountClient;
+
+    private final UserClient userClient;
 
     @Autowired
-    private AccountClient accountClient;
-
-    @Autowired
-    private UserClient userClient;
+    public CardServiceImpl( CardDao cardDao,AccountClient accountClient,UserClient userClient){
+        this.cardDao=cardDao;
+        this.accountClient=accountClient;
+        this.userClient=userClient;
+    }
 
     @Override
     public Card issueCard(Card card) {
@@ -49,14 +53,14 @@ public class CardServiceImpl implements CardService {
 
         logger.info("This is account Number: {}", card.getAccountNumber());
 
-        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(card.getAccountNumber());
-        if (!accountDTO.getEmail().equals(card.getEmail())) {
+        final AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(card.getAccountNumber());
+        if (!accountDTO.getEmail().equalsIgnoreCase(card.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
         logger.info("Account is {}", accountDTO);
 
-        User userDetails = userClient.getUserByEmail(card.getEmail());
-        String fullName = userDetails.getFirstName() + " " + userDetails.getLastName();
+        final User userDetails = userClient.getUserByEmail(card.getEmail());
+        final String fullName = userDetails.getFirstName() + " " + userDetails.getLastName();
         if (!fullName.equalsIgnoreCase(card.getName())) {
             throw new BadRequestException("Name is not valid, please enter full Name", HttpStatus.BAD_REQUEST.value());
         }
@@ -77,8 +81,8 @@ public class CardServiceImpl implements CardService {
     public Card activateOrDeactivateCard(ActivationStatusRequest activationStatusRequest) {
         logger.debug("Inside activate card");
 
-        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(activationStatusRequest.getAccountNumber());
-        if (!accountDTO.getEmail().equals(activationStatusRequest.getEmail())) {
+        final AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(activationStatusRequest.getAccountNumber());
+        if (!accountDTO.getEmail().equalsIgnoreCase(activationStatusRequest.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
 
@@ -86,28 +90,29 @@ public class CardServiceImpl implements CardService {
         if (optionalCard.isEmpty()) {
             throw new BadRequestException("Card does not exist", HttpStatus.BAD_REQUEST.value());
         }
-        Card card = optionalCard.get();
-        logger.debug("Card Status Before: {}", card.isActivationStatus());
-        card.setActivationStatus(activationStatusRequest.isActivationStatus());
-        logger.debug("Card Status After: {}", card.isActivationStatus());
-        return card;
+        optionalCard.get().setActivationStatus(activationStatusRequest.isActivationStatus());
+        return optionalCard.get();
     }
 
     @Override
     public Card reportLostCard(ReportLostCardRequest reportLostCardRequest) {
-        AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(reportLostCardRequest.getAccountNumber());
-        if (!accountDTO.getEmail().equals(reportLostCardRequest.getEmail())) {
+        final AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(reportLostCardRequest.getAccountNumber());
+        if (!accountDTO.getEmail().equalsIgnoreCase(reportLostCardRequest.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
 
         Optional<Card> optionalCard = cardDao.findById(reportLostCardRequest.getCardNumber());
-        if (optionalCard.isEmpty()) {
-            throw new RecordNotFoundException("Card not found with card number: " + reportLostCardRequest.getCardNumber(), HttpStatus.NOT_FOUND.value());
-        }
-        Card card = optionalCard.get();
-        card.setLost(true);
-        card.setActivationStatus(false);
-        return cardDao.save(card);
+//        if (optionalCard.isEmpty()) {
+//            throw new RecordNotFoundException("Card not found with card number: " + reportLostCardRequest.getCardNumber(), HttpStatus.NOT_FOUND.value());
+//        }
+//        Card card = optionalCard.get();
+//        card.setLost(true);
+//        card.setActivationStatus(false);
+        return cardDao.save(optionalCard.map(card -> {
+            card.setLost(true);
+            card.setActivationStatus(false);
+            return card;})
+                .orElseThrow(()->new RecordNotFoundException("Card not found with card number: " + reportLostCardRequest.getCardNumber(), HttpStatus.NOT_FOUND.value())));
     }
 
     public Card getCardDetails(String cardNumber){

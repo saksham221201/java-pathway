@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService {
         }
 
         // Encrypting the Password
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside Add users");
         user.setRole(Role.USER);
         logger.debug("User is saved");
@@ -75,9 +75,9 @@ public class UserServiceImpl implements UserService {
             throw new RecordAlreadyExistsException("Admin already exists with email: " + user.getEmail(), HttpStatus.BAD_REQUEST.value());
         }
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside Add Admin");
         user.setRole(Role.ADMIN);
         logger.debug("Admin is saved");
@@ -88,9 +88,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void seedAdmin(User user) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside seed Admin");
         userDao.save(user);
     }
@@ -163,9 +163,9 @@ public class UserServiceImpl implements UserService {
         updateUser.setLastName(user.getLastName());
 
         // Encrypting the Password
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        updateUser.setPassword(encryptedPassword);
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        updateUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         logger.info("Password is encrypted inside update Users");
 
         logger.info("User updated Successfully");
