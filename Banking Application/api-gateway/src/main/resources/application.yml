@@ -1,0 +1,32 @@
+eureka:
+    client:
+        fetch-registry: true
+        register-with-eureka: true
+        serviceUrl:
+            defaultZone: http://localhost:8761/eureka/
+server:
+    port: 9000
+spring:
+    application:
+        name: API-GATEWAY
+    cloud:
+        discovery:
+            enabled: true
+        gateway:
+            routes:
+            -   id: USER-SERVICE
+                uri: lb://USER-SERVICE
+                predicates:
+                - Path=/v1/api/users/**, /v1/api/auth/**
+            -   id: ACCOUNT-MODULE
+                uri: lb://ACCOUNT-MODULE
+                predicates:
+                - Path=/v1/api/accounts/**
+            -   id: TRANSACTION-MODULE
+                uri: lb://TRANSACTION-MODULE
+                predicates:
+                - Path=/v1/api/transactions/**
+            -   id: CARD-MODULE
+                uri: lb://CARD-MODULE
+                predicates:
+                - Path=/v1/api/cards/**

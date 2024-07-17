@@ -31,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-card-module.log
-card-module-error.log

@@ -13,7 +13,7 @@ import com.nagarro.usermodule.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/v1/api/users")
 public class UserController {
 
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -25,7 +25,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/users")
+	@PostMapping("/new")
 	public ResponseEntity<User> addUsers(@RequestBody User user){
 		logger.debug("Inside add Users Controller");
 		User newUser = userService.addUser(user);
@@ -35,7 +35,7 @@ public class UserController {
 
 	//Authorize only those that have ADMIN as their Authority, Authority defined in JwtAuthFilter
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@PostMapping("/admin")
+	@PostMapping("/admin/new")
 	public ResponseEntity<User> addAdmin(@RequestBody User user){
 		logger.debug("Inside add admin controller");
 		User newAdmin = userService.addAdmin(user);
@@ -44,7 +44,7 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@GetMapping("/users")
+	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUsers(){
 		logger.debug("Inside getAllUsers Controller");
 		List<User> list = userService.getAllUsers();
@@ -53,8 +53,8 @@ public class UserController {
 	}
 
 	//Only admin can access and the user can access only their own.
-	// @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
-	@GetMapping("/users/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
+	@GetMapping("/userId/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
 		logger.debug("Inside getUserById controller");
 		User fetchedUser = userService.getUserById(id);
@@ -62,7 +62,7 @@ public class UserController {
 		return new ResponseEntity<>(fetchedUser, new HttpHeaders(), HttpStatus.OK);
 	}
 
-	@GetMapping("/users/email/{email}")
+	@GetMapping("/email/{email}")
 	public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email){
 		logger.debug("Inside getUserByEmail controller");
 		User fetchedUser = userService.getUserByEmail(email);
@@ -72,7 +72,7 @@ public class UserController {
 
 	//#id is from path variable and principal is the logged-in user
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
-	@PutMapping("/users/{id}")
+	@PutMapping("/userId/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
 		logger.debug("Inside update Users Controller");
 		User updatedUser = userService.updateUser(id, user);
@@ -81,7 +81,7 @@ public class UserController {
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
 		logger.debug("Inside delete Users Controller");
 		userService.deleteUser(id);
