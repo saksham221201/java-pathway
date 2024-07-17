@@ -1,4 +1,4 @@
-package com.nagarro.transactionmodule.aspect;
+package com.nagarro.usermodule.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionTimeAspect {
 
-    private final Logger logger = LoggerFactory.getLogger(ExecutionTimeAspect.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Around("execution(* com.nagarro.transactionmodule.service.impl.TransactionServiceImpl.*(..))")
-    public Object transactionServiceImplExecutionTime(ProceedingJoinPoint point) throws Throwable {
+    @Around("execution(* com.nagarro.usermodule.service.impl.UserServiceImpl.*(..))")
+    public Object userServiceImplExecutionTime(ProceedingJoinPoint point) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object object = point.proceed();
         long endTime = System.currentTimeMillis();
@@ -22,8 +22,8 @@ public class ExecutionTimeAspect {
         return object;
     }
 
-    @Around("execution(* com.nagarro.transactionmodule.service.impl.MailServiceImpl.*(..))")
-    public Object mailServiceImplExecutionTime(ProceedingJoinPoint point) throws Throwable {
+    @Around("execution(* com.nagarro.usermodule.service.impl.AuthServiceImpl.*(..))")
+    public Object authServiceImplExecutionTime(ProceedingJoinPoint point) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object object = point.proceed();
         long endTime = System.currentTimeMillis();

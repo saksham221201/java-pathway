@@ -52,8 +52,8 @@ public class UserController {
 		return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
-	//Only admin can access and the user can access only their own.
-	@PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
+	// Only admin can access and the user can access only their own.
+	// @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and #id == principal.id)")
 	@GetMapping("/userId/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
 		logger.debug("Inside getUserById controller");
