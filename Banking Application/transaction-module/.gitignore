@@ -34,3 +34,4 @@ build/
 
 transaction-module-error.log
 transaction-module.log
+time-transaction-module.log
