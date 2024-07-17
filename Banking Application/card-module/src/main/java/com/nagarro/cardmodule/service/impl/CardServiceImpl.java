@@ -43,21 +43,16 @@ public class CardServiceImpl implements CardService {
     @Override
     public Card issueCard(Card card) {
 
-        logger.debug("Inside issue card");
-
         // Checking if any of the fields is Empty
         if (card.getName().isEmpty()) {
             logger.error("Inputs are blank in issue card");
             throw new EmptyInputException("Input cannot be Null!", HttpStatus.BAD_REQUEST.value());
         }
 
-        logger.info("This is account Number: {}", card.getAccountNumber());
-
         final AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(card.getAccountNumber());
         if (!accountDTO.getEmail().equalsIgnoreCase(card.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
-        logger.info("Account is {}", accountDTO);
 
         final User userDetails = userClient.getUserByEmail(card.getEmail());
         final String fullName = userDetails.getFirstName() + " " + userDetails.getLastName();
@@ -71,15 +66,12 @@ public class CardServiceImpl implements CardService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptedCvv = bCryptPasswordEncoder.encode(card.getCvv());
         card.setCvv(encryptedCvv);
-        logger.info("Hashed: " + encryptedCvv);
-        logger.info("CVV is encrypted inside Issue Card");
 
         return cardDao.save(card);
     }
 
     @Override
     public Card activateOrDeactivateCard(ActivationStatusRequest activationStatusRequest) {
-        logger.debug("Inside activate card");
 
         final AccountDTO accountDTO = accountClient.getAccountDetailsByAccountNumber(activationStatusRequest.getAccountNumber());
         if (!accountDTO.getEmail().equalsIgnoreCase(activationStatusRequest.getEmail())) {
