@@ -35,62 +35,27 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-    @Autowired
-    private AccountServiceClient accountServiceClient;
+    private final AccountServiceClient accountServiceClient;
+    private final UserServiceClient userServiceClient;
+    private final CardServiceClient cardServiceClient;
+    private final MailService mailService;
+    private final TransactionDao transactionDao;
 
     @Autowired
-    private UserServiceClient userServiceClient;
-
-    @Autowired
-    private CardServiceClient cardServiceClient;
-
-    @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private TransactionDao transactionDao;
-
-    @Override
-    @Transactional
-    public AccountDTO depositMoney(TransactionRequest transactionRequest) {
-        logger.debug("Inside deposit Money");
-
-        AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
-
-        User user = userServiceClient.getUserByEmail(transactionRequest.getEmail());
-        if (!accountDTO.getEmail().equals(transactionRequest.getEmail())) {
-            logger.error("Invalid Account Details in deposit");
-            throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
-        }
-
-        if (accountDTO.getAccountType().equalsIgnoreCase("FIXED")) {
-            throw new BadRequestException("Cannot deposit to a FIXED Account", HttpStatus.BAD_REQUEST.value());
-        }
-
-        accountDTO.setBalance(accountDTO.getBalance() + transactionRequest.getAmount());
-        logger.debug("Amount added");
-
-        Mail mail = new Mail();
-        mail.setSubject("Bank Transaction - Money Deposited");
-        mail.setMessage("There was a transaction of Rs " + transactionRequest.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
-
-        mailService.sendMail(transactionRequest.getEmail(), mail);
-
-        accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
-
-        saveTransaction(transactionRequest,accountDTO.getBalance(),"DEPOSIT");
-        logger.info("Deposit Transaction saved");
-
-        return accountDTO;
+    public TransactionServiceImpl(AccountServiceClient accountServiceClient, UserServiceClient userServiceClient, CardServiceClient cardServiceClient, MailService mailService, TransactionDao transactionDao) {
+        this.accountServiceClient = accountServiceClient;
+        this.userServiceClient = userServiceClient;
+        this.cardServiceClient = cardServiceClient;
+        this.mailService = mailService;
+        this.transactionDao = transactionDao;
     }
 
     @Override
     @Transactional
     public AccountDTO withdrawMoney(TransactionRequest transactionRequest) {
-        logger.debug("Inside withdraw Money");
-        AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
+        final AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
 
-        if (!accountDTO.getEmail().equals(transactionRequest.getEmail())) {
+        if (!accountDTO.getEmail().equalsIgnoreCase(transactionRequest.getEmail())) {
             logger.error("Invalid Account Details in withdraw money");
             throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
         }
@@ -99,10 +64,8 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BadRequestException("Cannot withdraw from FIXED Account", HttpStatus.BAD_REQUEST.value());
         }
 
-        double initialBalance = accountDTO.getBalance();
-
         // Checking if the amount to be withdrawn is greater than the present balance or not
-        if (initialBalance < transactionRequest.getAmount()) {
+        if (accountDTO.getBalance() < transactionRequest.getAmount()) {
             logger.error("Not enough Balance!! Cannot withdraw money");
             throw new InsufficientBalanceException("Not enough balance!! Cannot withdraw money",
                     HttpStatus.BAD_REQUEST.value());
@@ -116,39 +79,57 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountDTO.setBalance(accountDTO.getBalance() - transactionRequest.getAmount());
 
-        Mail mail = new Mail();
-        mail.setSubject("Bank Transaction - Money Withdraw");
-        mail.setMessage("There was a transaction of Rs " + transactionRequest.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
-
-        mailService.sendMail(transactionRequest.getEmail(), mail);
+        sendMail(transactionRequest.getAmount(), accountDTO.getBalance(), transactionRequest.getEmail(), "Money Withdrawn");
 
         accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
 
         saveTransaction(transactionRequest,accountDTO.getBalance(),"WITHDRAW");
-        logger.info("Withdrawal Transaction saved");
+        logger.debug("Withdrawal Transaction saved");
+        return accountDTO;
+    }
+
+    @Override
+    @Transactional
+    public AccountDTO depositMoney(TransactionRequest transactionRequest) {
+        final AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(transactionRequest.getAccountNumber());
+
+        final User user = userServiceClient.getUserByEmail(transactionRequest.getEmail());
+        if (!accountDTO.getEmail().equalsIgnoreCase(transactionRequest.getEmail())) {
+            logger.error("Invalid Account Details in deposit. Email not matching: {} {}", accountDTO.getEmail(), transactionRequest.getEmail());
+            throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
+        }
+
+        if (accountDTO.getAccountType().equalsIgnoreCase("FIXED")) {
+            logger.error("Cannot deposit to Account Type: {}", accountDTO.getAccountType());
+            throw new BadRequestException("Cannot deposit to a FIXED Account", HttpStatus.BAD_REQUEST.value());
+        }
+        accountDTO.setBalance(accountDTO.getBalance() + transactionRequest.getAmount());
+
+        sendMail(transactionRequest.getAmount(), accountDTO.getBalance(), transactionRequest.getEmail(), "Money Deposited");
+
+        accountServiceClient.updateBalance(transactionRequest.getAccountNumber(),accountDTO.getBalance());
+
+        saveTransaction(transactionRequest,accountDTO.getBalance(),"DEPOSIT");
         return accountDTO;
     }
 
     @Override
     public List<Transaction> getTransactions(String accountNumber) {
-        logger.debug("Inside Get Transactions by accountNumber");
         return transactionDao.findByAccountNumber(accountNumber);
     }
 
     @Override
+    @Transactional
     public AccountDTO transferMoney(TransferRequest transferRequest){
-        logger.debug("Inside transfer Money");
-        AccountDTO accountDTODebit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getAccountNumber());
+        final AccountDTO accountDTODebit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getAccountNumber());
 
         if (!accountDTODebit.getEmail().equals(transferRequest.getEmail())) {
             logger.error("Invalid Account Details in transfer money");
             throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
         }
 
-        double initialBalance = accountDTODebit.getBalance();
-
         // Checking if the amount to be withdrawn is greater than the present balance or not
-        if (initialBalance < transferRequest.getAmount()) {
+        if (accountDTODebit.getBalance() < transferRequest.getAmount()) {
             logger.error("Not enough Balance!! Cannot transfer money");
             throw new InsufficientBalanceException("Not enough balance!! Cannot transfer money",
                     HttpStatus.BAD_REQUEST.value());
@@ -164,23 +145,25 @@ public class TransactionServiceImpl implements TransactionService {
 
         accountServiceClient.updateBalance(transferRequest.getAccountNumber(),accountDTODebit.getBalance());
 
-        TransactionRequest req1 = new TransactionRequest();
-        req1.setAmount(transferRequest.getAmount());
-        req1.setAccountNumber(transferRequest.getAccountNumber());
-        saveTransaction(req1,accountDTODebit.getBalance(),"TRANSFER WITHDRAWAL");
-        logger.info("Transfer Withdrawal Transaction saved");
+        TransactionRequest transactionRequestWithdrawal = TransactionRequest.builder()
+                .amount(transferRequest.getAmount())
+                .accountNumber(transferRequest.getAccountNumber())
+                .build();
+        saveTransaction(transactionRequestWithdrawal,accountDTODebit.getBalance(),"TRANSFER WITHDRAWAL");
+
+
+        final AccountDTO accountDTOCredit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getCreditAccountNumber());
+
+        accountDTOCredit.setBalance(accountDTOCredit.getBalance() + transferRequest.getAmount());
+        accountServiceClient.updateBalance(transferRequest.getCreditAccountNumber(),accountDTOCredit.getBalance());
 
         // Transfer deposit
-        TransactionRequest req2 = new TransactionRequest();
-
-        AccountDTO accountDTOCredit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getCreditAccountNumber());
-        accountDTOCredit.setBalance(accountDTOCredit.getBalance() + transferRequest.getAmount());
-        logger.debug("Transfer money deposited");
-        accountServiceClient.updateBalance(transferRequest.getCreditAccountNumber(),accountDTOCredit.getBalance());
-        req2.setAmount(transferRequest.getAmount());
-        req2.setAccountNumber(transferRequest.getCreditAccountNumber());
-        saveTransaction(req2,accountDTOCredit.getBalance(),"TRANSFER DEPOSIT");
-        logger.info("Transfer Deposit Transaction saved");
+        TransactionRequest transactionRequestDeposit = TransactionRequest
+                .builder()
+                .amount(transferRequest.getAmount())
+                .accountNumber(transferRequest.getCreditAccountNumber())
+                .build();
+       saveTransaction(transactionRequestDeposit,accountDTOCredit.getBalance(),"TRANSFER DEPOSIT");
 
         return accountDTODebit;
     }
@@ -188,16 +171,16 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public AccountDTO cardWithdrawal(CardTransaction cardTransaction) {
-        logger.debug("Inside card withdraw");
 
         // Checking if any of the fields is Empty or not
         if(cardTransaction.getEmail().isBlank() || cardTransaction.getCardNumber().isBlank() || cardTransaction.getAccountNumber().isBlank() || cardTransaction.getCvv().isBlank()){
             logger.error("Inputs are blank in card withdrawal");
             throw new EmptyInputException("Input cannot be null!!", HttpStatus.BAD_REQUEST.value());
         }
-        AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(cardTransaction.getAccountNumber());
 
-        if (!accountDTO.getEmail().equals(cardTransaction.getEmail())) {
+        final AccountDTO accountDTO = accountServiceClient.getAccountDetailsByAccountNumber(cardTransaction.getAccountNumber());
+
+        if (!accountDTO.getEmail().equalsIgnoreCase(cardTransaction.getEmail())) {
             logger.error("Invalid Account Details in card withdrawal");
             throw new BadRequestException("Invalid Account Details", HttpStatus.BAD_REQUEST.value());
         }
@@ -206,36 +189,29 @@ public class TransactionServiceImpl implements TransactionService {
             throw new BadRequestException("Cannot withdraw from FIXED Account", HttpStatus.BAD_REQUEST.value());
         }
 
-        CardDTO cardDetails = cardServiceClient.getCardDetails(cardTransaction.getCardNumber()).getBody();
-        logger.info("CVV: {}", cardDetails.getCvv());
-        logger.info("CardTransaction CVV: {}", cardTransaction.getCvv());
+        final CardDTO cardDetails = cardServiceClient.getCardDetails(cardTransaction.getCardNumber()).getBody();
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        logger.debug(String.valueOf(bCryptPasswordEncoder.matches(cardTransaction.getCvv(), cardDetails.getCvv())));
+
         if (!bCryptPasswordEncoder.matches(cardTransaction.getCvv(), cardDetails.getCvv())) {
+            logger.error("CVV not matching: {}", cardTransaction.getCvv());
             throw new BadRequestException("CVV is not matching", HttpStatus.BAD_REQUEST.value());
         }
 
-
         // Checking for Daily limit of the CARD
         List<Transaction> transactions = getTransactions(cardTransaction.getAccountNumber());
-        logger.info(transactions.toString());
         double sum = transactions.stream()
                 .filter(transaction -> LocalDate.now().equals(transaction.getTimestamp()
                         .toLocalDate()) && "CARD WITHDRAWAL"
                         .equals(transaction.getTransactionType()))
                 .mapToDouble(Transaction::getAmount).sum();
 
-        logger.info(String.valueOf(sum));
-
         if (sum + cardTransaction.getAmount() > cardDetails.getDailyLimit()) {
             throw new LimitExceededException("Daily limit exceeded", HttpStatus.FORBIDDEN.value());
         }
 
-        double initialBalance = accountDTO.getBalance();
-
         // Checking if the amount to be withdrawn is greater than the present balance or not
-        if (initialBalance < cardTransaction.getAmount()) {
+        if (accountDTO.getBalance() < cardTransaction.getAmount()) {
             logger.error("Not enough Balance for card withdrawal!! Cannot withdraw money");
             throw new InsufficientBalanceException("Not enough balance for card withdrawal!! Cannot withdraw money",
                     HttpStatus.BAD_REQUEST.value());
@@ -243,45 +219,42 @@ public class TransactionServiceImpl implements TransactionService {
 
         // Checking if the amount to be withdrawn in the account is valid or not
         if (cardTransaction.getAmount() <= 0) {
-            logger.error("Please enter valid Amount in card withdrawal");
+            logger.error("The amount: {} entered is not valid ",cardTransaction.getAmount());
             throw new BadRequestException("Please enter valid Amount", HttpStatus.BAD_REQUEST.value());
         }
 
         accountDTO.setBalance(accountDTO.getBalance() - cardTransaction.getAmount());
 
-        Mail mail = new Mail();
-        mail.setSubject("Bank Transaction - Money Withdrawn from card");
-        mail.setMessage("There was a transaction of Rs " + cardTransaction.getAmount() + ". Total Balance Available: " + accountDTO.getBalance());
-
-        mailService.sendMail(cardTransaction.getEmail(), mail);
+        sendMail(cardTransaction.getAmount(), accountDTO.getBalance(), cardDetails.getEmail(), "Money Withdrawn from card");
 
         accountServiceClient.updateBalance(cardTransaction.getAccountNumber(),accountDTO.getBalance());
 
-        TransactionRequest req = new TransactionRequest();
-        req.setAmount(cardTransaction.getAmount());
-        req.setEmail(cardTransaction.getEmail());
-        req.setAccountNumber(cardTransaction.getAccountNumber());
-
-        saveTransaction(req,accountDTO.getBalance(),"CARD WITHDRAWAL");
-        logger.info("Card Withdrawal Transaction saved");
+        TransactionRequest transactionRequest = TransactionRequest
+                .builder()
+                .amount(cardTransaction.getAmount())
+                .email(cardTransaction.getEmail())
+                .accountNumber(cardTransaction.getAccountNumber())
+                .build();
+        saveTransaction(transactionRequest,accountDTO.getBalance(),"CARD WITHDRAWAL");
         return accountDTO;
     }
 
-    private void saveTransaction(TransactionRequest req, Double balance, String transactionType){
-        Transaction transaction = new Transaction();
-        transaction.setTransactionType(transactionType);
-        transaction.setAmount(req.getAmount());
-        transaction.setAccountNumber(req.getAccountNumber());
-        transaction.setBalance(balance);
-        transaction.setTimestamp(LocalDateTime.now());
-
+    private void saveTransaction(TransactionRequest transactionRequest, Double balance, String transactionType){
+        Transaction transaction = Transaction.builder()
+                .transactionType(transactionType)
+                .amount(transactionRequest.getAmount())
+                .accountNumber(transactionRequest.getAccountNumber())
+                .balance(balance)
+                .timestamp(LocalDateTime.now())
+                .build();
         transactionDao.save(transaction);
     }
 
-    private static boolean isRecentTransaction(Transaction transaction) {
-        // date is stored like this: `2022-05-16 20:54:48.110`
-        // we need the first part representing the current date in accordance with ISO-8601
-        String date = String.valueOf(transaction.getTimestamp().toLocalDate());
-        return LocalDate.now().isEqual(LocalDate.parse(date));
+    private void sendMail(double amount, double balance, String email, String transactionType) {
+        Mail mail = new Mail();
+        mail.setSubject("Bank Transaction - " + transactionType);
+        mail.setMessage("There was a transaction of Rs " + amount + ". Total Balance Available: " + balance);
+
+        mailService.sendMail(email, mail);
     }
 }
