@@ -23,3 +23,11 @@
 2024-07-17 11:24:46 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
 2024-07-17 11:24:46 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
 2024-07-17 11:24:52 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 6.671 seconds (process running for 7.459)
+2024-07-17 14:16:07 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 28996 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-17 14:16:07 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-17 14:16:07 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-17 14:16:15 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 8.719 seconds (process running for 9.708)
+2024-07-18 11:54:03 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 15660 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-18 11:54:03 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-18 11:54:03 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-18 11:54:10 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 7.129 seconds (process running for 7.877)
