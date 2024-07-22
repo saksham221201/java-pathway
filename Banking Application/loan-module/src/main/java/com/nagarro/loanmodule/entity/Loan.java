@@ -1,9 +1,9 @@
 package com.nagarro.loanmodule.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Loan {
     @Id
     @GeneratedValue(generator = "loan-id-generator")
@@ -23,11 +24,20 @@ public class Loan {
     private String accountNumber;
     private int tenure;
     private String mobile;
-    private String loanType;
+
+    @Enumerated(EnumType.STRING)
+    private LoanType loanType;
+
     private String loanStatus;
     private String verificationStatus;
+
+    @Lob
+    @Column(name = "document", columnDefinition = "MEDIUMBLOB")
+    private byte[] document;
+
     private double loanAmount;
-    private double rateOfInterest = 12.0;
+    private double rateOfInterest;
     private LocalDateTime timestamp;
     private double emi;
+
 }
