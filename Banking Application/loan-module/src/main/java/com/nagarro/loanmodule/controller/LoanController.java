@@ -10,6 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class LoanController {
@@ -22,7 +26,7 @@ public class LoanController {
 
     @GetMapping("/")
     public String greeting(Model model) {
-        model.addAttribute("message", "Welcome to our website!");
+        model.addAttribute("message", "Welcome to Loan Application!");
         return "index";
     }
 
@@ -30,5 +34,11 @@ public class LoanController {
     public ResponseEntity<Loan> applyLoan(@RequestBody Loan loan) {
         Loan appliedLoan = loanService.applyLoan(loan);
         return new ResponseEntity<>(appliedLoan, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("loanId") String loanId, Model model) throws IOException {
+        loanService.storeDocument(file, loanId);
+        return "uploadSuccess";
     }
 }

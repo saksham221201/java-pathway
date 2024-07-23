@@ -12,7 +12,9 @@ import com.nagarro.loanmodule.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -41,8 +43,14 @@ public class LoanServiceImpl implements LoanService {
         if (!userDetails.getEmail().equalsIgnoreCase(loan.getEmail())) {
             throw new BadRequestException("Invalid Email for userId", HttpStatus.BAD_REQUEST.value());
         }
-        Loan
+        Loan newLoan = Loan
                 .builder()
+                .email(loan.getEmail())
+                .accountNumber(loan.getAccountNumber())
+                .mobile(loan.getMobile())
+                .loanType(loan.getLoanType())
+                .loanAmount(loan.getLoanAmount())
+                .tenure(loan.getTenure())
                 .rateOfInterest(loan.getRateOfInterest())
                 .loanStatus("PENDING")
                 .verificationStatus("PENDING")
@@ -51,7 +59,7 @@ public class LoanServiceImpl implements LoanService {
                         loan.getTenure(), loan.getRateOfInterest()))
                 .build();
 
-        return loanDao.save(loan);
+        return loanDao.save(newLoan);
     }
 
     @Override
@@ -65,6 +73,17 @@ public class LoanServiceImpl implements LoanService {
         return loanOptional.get();
     }
 
+    @Override
+    public void storeDocument(MultipartFile multipartFile, String loanId) throws IOException {
+        Optional<Loan> existingLoan = loanDao.findById(loanId);
+        if (existingLoan.isEmpty()) {
+            throw new BadRequestException("Loan does not exists!!", HttpStatus.BAD_REQUEST.value());
+        }
+        Loan loan = existingLoan.get();
+        byte[] content = multipartFile.getBytes();
+        loan.setDocument(content);
+        loanDao.save(loan);
+    }
 
 
     private double calculateEMI(double loanAmount, int tenure, double rate) {
