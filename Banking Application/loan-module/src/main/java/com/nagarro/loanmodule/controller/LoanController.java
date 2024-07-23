@@ -1,6 +1,7 @@
 package com.nagarro.loanmodule.controller;
 
 import com.nagarro.loanmodule.entity.Loan;
+import com.nagarro.loanmodule.request.VerifyStatusRequest;
 import com.nagarro.loanmodule.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,19 @@ public class LoanController {
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("loanId") String loanId, Model model) throws IOException {
         loanService.storeDocument(file, loanId);
         return "uploadSuccess";
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<Loan> verifyLoan(@RequestBody VerifyStatusRequest verifyStatusRequest){
+        Loan loan = loanService.verifyLoan(verifyStatusRequest);
+
+        return new ResponseEntity<>(loan,HttpStatus.OK);
+    }
+
+    @PostMapping("/loanStatus")
+    public ResponseEntity<Loan> loanStatus(@RequestBody VerifyStatusRequest verifyStatusRequest){
+        Loan loan = loanService.checkLoanStatus(verifyStatusRequest);
+
+        return new ResponseEntity<>(loan,HttpStatus.OK);
     }
 }

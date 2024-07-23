@@ -10,4 +10,5 @@ public interface LoanService {
     Loan applyLoan(Loan loan);
     Loan verifyLoan(VerifyStatusRequest verifyStatusRequest);
     void storeDocument(MultipartFile multipartFile, String loanId) throws IOException;
+    Loan checkLoanStatus(VerifyStatusRequest statusRequest);
 }

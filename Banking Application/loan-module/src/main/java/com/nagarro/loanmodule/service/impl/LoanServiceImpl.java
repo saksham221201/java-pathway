@@ -11,6 +11,7 @@ import com.nagarro.loanmodule.request.VerifyStatusRequest;
 import com.nagarro.loanmodule.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,10 +86,23 @@ public class LoanServiceImpl implements LoanService {
         loanDao.save(loan);
     }
 
+    @Override
+    public Loan checkLoanStatus(VerifyStatusRequest statusRequest) {
+
+        Optional<Loan> loanOptional = loanDao.findById(statusRequest.getLoanId());
+        if (loanOptional.isEmpty()) {
+            throw new BadRequestException("Loan does not exist", HttpStatus.BAD_REQUEST.value());
+        }
+        loanOptional.get().setLoanStatus(statusRequest.getVerifyStatus());
+        return loanOptional.get();
+    }
 
     private double calculateEMI(double loanAmount, int tenure, double rate) {
         int n = tenure * 12;
         double r = rate / 1200;
         return (loanAmount * r * Math.pow((1 + r), n)) / (Math.pow(1 + r, n) - 1);
     }
+
+
+
 }
