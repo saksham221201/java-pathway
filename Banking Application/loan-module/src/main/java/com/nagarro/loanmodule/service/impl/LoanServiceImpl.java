@@ -11,13 +11,14 @@ import com.nagarro.loanmodule.request.VerifyStatusRequest;
 import com.nagarro.loanmodule.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -65,7 +66,6 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan verifyLoan(VerifyStatusRequest verifyStatusRequest) {
-
         Optional<Loan> loanOptional = loanDao.findById(verifyStatusRequest.getLoanId());
         if (loanOptional.isEmpty()) {
             throw new BadRequestException("Loan does not exist", HttpStatus.BAD_REQUEST.value());
@@ -97,12 +97,14 @@ public class LoanServiceImpl implements LoanService {
         return loanOptional.get();
     }
 
+    @Override
+    public List<Loan> getAllLoans() {
+        return loanDao.findAll();
+    }
+
     private double calculateEMI(double loanAmount, int tenure, double rate) {
         int n = tenure * 12;
         double r = rate / 1200;
         return (loanAmount * r * Math.pow((1 + r), n)) / (Math.pow(1 + r, n) - 1);
     }
-
-
-
 }
