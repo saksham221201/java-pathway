@@ -88,7 +88,7 @@ public class LoanServiceImpl implements LoanService {
 
     private double calculateEMI(double loanAmount, int tenure, double rate) {
         int n = tenure * 12;
-        double r = rate/1200;
+        double r = rate / 1200;
         return (loanAmount * r * Math.pow((1 + r), n)) / (Math.pow(1 + r, n) - 1);
     }
 }
