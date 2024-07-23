@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Documents</title>
+</head>
+<body>
+<h1>Documents</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Loan ID</th>
+        <th>Email</th>
+        <th>Document</th>
+        <th>Verified</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="document : ${documents}">
+        <td th:text="${document.loanId}"></td>
+        <td th:text="${document.email}"></td>
+        <td><img th:src="@{'data:image/jpeg;base64,'+${document.getImageDataBase64()}}" alt="images from database" width="20%" height="20%"/></td>
+        <td><input type="checkbox" value="Verified"/></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
