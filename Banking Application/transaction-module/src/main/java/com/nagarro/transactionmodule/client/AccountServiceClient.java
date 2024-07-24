@@ -10,6 +10,6 @@ public interface AccountServiceClient {
     @GetMapping("/v1/api/accounts/{accountNumber}")
     AccountDTO getAccountDetailsByAccountNumber(@PathVariable("accountNumber") String accountNumber);
 
-    @PutMapping("/v1/api/accounts/{accountNumber}")
+    @PutMapping("/v1/api/accounts/update/{accountNumber}")
     AccountDTO updateBalance(@PathVariable("accountNumber") String accountNumber, @RequestBody double balance);
 }
