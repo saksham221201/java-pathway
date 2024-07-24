@@ -1,10 +1,11 @@
 package com.nagarro.transactionmodule.client;
 
+import com.nagarro.transactionmodule.config.FeignClientConfig;
 import com.nagarro.transactionmodule.dto.AccountDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "ACCOUNT-MODULE")
+@FeignClient(name = "ACCOUNT-MODULE", configuration = FeignClientConfig.class)
 public interface AccountServiceClient {
 
     @GetMapping("/v1/api/accounts/{accountNumber}")

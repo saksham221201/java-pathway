@@ -7,6 +7,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+
+    private final Logger logger = LoggerFactory.getLogger(FeignClientConfig.class);
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -45,21 +49,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         // Get user identity and set it on the spring security context
         User userDetails = userServiceClient.getUserByEmail(jwtTokenUtil.getEmailFromToken(token));
-        String userRole = jwtTokenUtil.getRoleFromToken(token);
+        if (userDetails != null){
+            String userRole = jwtTokenUtil.getRoleFromToken(token);
 
-        // Set the authority to the userRole
-        GrantedAuthority authority = new SimpleGrantedAuthority(userRole);
+            // Set the authority to the userRole
+            GrantedAuthority authority = new SimpleGrantedAuthority(userRole);
 
-        UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(
-        userDetails, null, List.of(authority)
-        );
+            UsernamePasswordAuthenticationToken
+                    authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, token, List.of(authority)
+            );
 
-        authentication.setDetails(
-                new WebAuthenticationDetailsSource().buildDetails(request)
-        );
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.info("Setting authentication for user: {}", userRole);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.info("authentication credentials in filter are {}", authentication.getCredentials());
+        }else {
+            logger.warn("User not found for token: {}", token);
+        }
+
         filterChain.doFilter(request, response);
     }
 }
