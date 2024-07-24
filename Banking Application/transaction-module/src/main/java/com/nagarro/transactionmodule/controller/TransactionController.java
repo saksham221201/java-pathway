@@ -3,6 +3,7 @@ package com.nagarro.transactionmodule.controller;
 import com.lowagie.text.DocumentException;
 import com.nagarro.transactionmodule.dto.AccountDTO;
 import com.nagarro.transactionmodule.entity.Transaction;
+import com.nagarro.transactionmodule.exception.BadRequestException;
 import com.nagarro.transactionmodule.exporter.PDFExporter;
 import com.nagarro.transactionmodule.request.CardTransaction;
 import com.nagarro.transactionmodule.request.TransactionRequest;
@@ -12,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -30,6 +33,7 @@ public class TransactionController {
 
     @PostMapping("/deposit")
     public ResponseEntity<AccountDTO> addMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
+
         AccountDTO updatedAccount = transactionService.depositMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
     }
