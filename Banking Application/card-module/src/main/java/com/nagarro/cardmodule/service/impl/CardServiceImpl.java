@@ -94,12 +94,6 @@ public class CardServiceImpl implements CardService {
         }
 
         Optional<Card> optionalCard = cardDao.findById(reportLostCardRequest.getCardNumber());
-//        if (optionalCard.isEmpty()) {
-//            throw new RecordNotFoundException("Card not found with card number: " + reportLostCardRequest.getCardNumber(), HttpStatus.NOT_FOUND.value());
-//        }
-//        Card card = optionalCard.get();
-//        card.setLost(true);
-//        card.setActivationStatus(false);
         return cardDao.save(optionalCard.map(card -> {
             card.setLost(true);
             card.setActivationStatus(false);

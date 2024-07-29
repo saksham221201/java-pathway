@@ -1,8 +1,8 @@
-package com.nagarro.accountmodule.config;
+package com.nagarro.loanmodule.config;
 
-import com.nagarro.accountmodule.dto.User;
-import com.nagarro.accountmodule.client.UserServiceClient;
-import com.nagarro.accountmodule.util.JwtTokenUtil;
+import com.nagarro.loanmodule.client.UserServiceClient;
+import com.nagarro.loanmodule.dto.User;
+import com.nagarro.loanmodule.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

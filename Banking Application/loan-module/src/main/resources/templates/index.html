@@ -45,7 +45,13 @@
                     <button type="submit">Upload</button>
                 </form>
 
-                <a th:href="@{/view}">View All Documents</a>
+                <form method="POST" action="/view">
+                    <label>Username</label>
+                    <input type="email" name="email" required/>
+                    <label>Password</label>
+                    <input type="password" name="password" required/>
+                    <button type="submit">View Documents</button>
+                </form>
 
             </div>
         </div>

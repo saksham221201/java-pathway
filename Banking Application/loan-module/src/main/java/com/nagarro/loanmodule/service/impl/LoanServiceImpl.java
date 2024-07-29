@@ -1,13 +1,16 @@
 package com.nagarro.loanmodule.service.impl;
 
 import com.nagarro.loanmodule.client.AccountClient;
-import com.nagarro.loanmodule.client.UserClient;
+import com.nagarro.loanmodule.client.UserServiceClient;
 import com.nagarro.loanmodule.dao.LoanDao;
 import com.nagarro.loanmodule.dto.AccountDTO;
+import com.nagarro.loanmodule.dto.Role;
 import com.nagarro.loanmodule.dto.User;
 import com.nagarro.loanmodule.entity.Loan;
 import com.nagarro.loanmodule.exception.BadRequestException;
+import com.nagarro.loanmodule.request.LoginRequest;
 import com.nagarro.loanmodule.request.VerifyStatusRequest;
+import com.nagarro.loanmodule.response.LoginResponse;
 import com.nagarro.loanmodule.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,17 +21,16 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LoanServiceImpl implements LoanService {
 
     private final LoanDao loanDao;
     private final AccountClient accountClient;
-    private final UserClient userClient;
+    private final UserServiceClient userClient;
 
     @Autowired
-    public LoanServiceImpl(LoanDao loanDao, AccountClient accountClient, UserClient userClient) {
+    public LoanServiceImpl(LoanDao loanDao, AccountClient accountClient, UserServiceClient userClient) {
         this.loanDao = loanDao;
         this.accountClient = accountClient;
         this.userClient = userClient;
@@ -65,13 +67,13 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan verifyLoan(VerifyStatusRequest verifyStatusRequest) {
-        Optional<Loan> loanOptional = loanDao.findById(verifyStatusRequest.getLoanId());
+    public Loan verifyLoan(String loanId) {
+        Optional<Loan> loanOptional = loanDao.findById(loanId);
         if (loanOptional.isEmpty()) {
             throw new BadRequestException("Loan does not exist", HttpStatus.BAD_REQUEST.value());
         }
-        loanOptional.get().setVerificationStatus(verifyStatusRequest.getVerifyStatus());
-        return loanOptional.get();
+        loanOptional.get().setVerificationStatus("Approved");
+        return loanDao.save(loanOptional.get());
     }
 
     @Override
@@ -87,7 +89,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan checkLoanStatus(VerifyStatusRequest statusRequest) {
+    public Loan changeLoanStatus(VerifyStatusRequest statusRequest) {
 
         Optional<Loan> loanOptional = loanDao.findById(statusRequest.getLoanId());
         if (loanOptional.isEmpty()) {
@@ -100,6 +102,12 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public List<Loan> getAllLoans() {
         return loanDao.findAll();
+    }
+
+    @Override
+    public boolean login(LoginRequest loginRequest) {
+        final LoginResponse loginResponse = userClient.login(loginRequest);
+        return loginResponse.getUser().getRole().equals(Role.ADMIN);
     }
 
     private double calculateEMI(double loanAmount, int tenure, double rate) {

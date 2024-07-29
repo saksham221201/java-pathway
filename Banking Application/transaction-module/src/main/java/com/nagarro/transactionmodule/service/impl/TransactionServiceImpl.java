@@ -121,7 +121,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public AccountDTO transferMoney(TransferRequest transferRequest){
+
+        logger.info("Account Number: {}", transferRequest.getAccountNumber());
+
         final AccountDTO accountDTODebit = accountServiceClient.getAccountDetailsByAccountNumber(transferRequest.getAccountNumber());
+        logger.info("Details are: {}", accountDTODebit);
 
         if (!accountDTODebit.getEmail().equals(transferRequest.getEmail())) {
             logger.error("Invalid Account Details in transfer money");

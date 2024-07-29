@@ -1,21 +1,28 @@
 package com.nagarro.loanmodule.controller;
 
 import com.nagarro.loanmodule.entity.Loan;
+import com.nagarro.loanmodule.request.LoginRequest;
 import com.nagarro.loanmodule.request.VerifyStatusRequest;
+import com.nagarro.loanmodule.response.LoginResponse;
 import com.nagarro.loanmodule.service.LoanService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class LoanController {
+
+    private final Logger logger = LoggerFactory.getLogger(LoanController.class);
 
     private final LoanService loanService;
 
@@ -24,7 +31,7 @@ public class LoanController {
     }
 
     @GetMapping("/")
-    public String greeting(Model model) {
+    public String home(Model model) {
         model.addAttribute("message", "Welcome to Loan Application!");
         return "index";
     }
@@ -42,23 +49,46 @@ public class LoanController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<Loan> verifyLoan(@RequestBody VerifyStatusRequest verifyStatusRequest){
-        Loan loan = loanService.verifyLoan(verifyStatusRequest);
+    public ResponseEntity<Loan> verifyLoan(@PathVariable String loanId){
+        Loan loan = loanService.verifyLoan(loanId);
 
         return new ResponseEntity<>(loan,HttpStatus.OK);
     }
 
     @PostMapping("/loanStatus")
     public ResponseEntity<Loan> loanStatus(@RequestBody VerifyStatusRequest verifyStatusRequest){
-        Loan loan = loanService.checkLoanStatus(verifyStatusRequest);
+        Loan loan = loanService.changeLoanStatus(verifyStatusRequest);
 
         return new ResponseEntity<>(loan,HttpStatus.OK);
     }
 
     @RequestMapping("/view")
-    public String showDocuments(Model model) {
+    public String showDocuments(@RequestParam("email") String email, @RequestParam("password") String password, Model model) {
         List<Loan> documents = loanService.getAllLoans();
         model.addAttribute("documents", documents);
-        return "viewAllDocs";
+        model.addAttribute("email", email);
+        model.addAttribute("password", password);
+        LoginRequest loginRequest = LoginRequest
+                .builder()
+                .email(email)
+                .password(password)
+                .build();
+        boolean loginResponse = loanService.login(loginRequest);
+        logger.info("LoginResponse: {}", loginResponse);
+        if (loginResponse) return "viewAllDocs";
+        return "index";
     }
+
+    @RequestMapping("/updateStatus")
+    public String updateVerificationStatus(@RequestParam String loanId, @RequestParam boolean verified, @RequestParam String email, @RequestParam String password, Model model) {
+        logger.info("Update Verification Status Hit in controller");
+        Loan loan = loanService.verifyLoan(loanId);
+        return showDocuments(email, password, model);
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        model.addAttribute("contextPath", request.getContextPath());
+    }
+
 }

@@ -5,7 +5,7 @@
     <title>Documents</title>
 </head>
 <body>
-<h1>Documents</h1>
+<h1 style="text-align: center">Documents</h1>
 <table>
     <thead>
     <tr>
@@ -19,8 +19,20 @@
     <tr th:each="document : ${documents}">
         <td th:text="${document.loanId}"></td>
         <td th:text="${document.email}"></td>
-        <td><img th:src="@{'data:image/jpeg;base64,'+${document.getImageDataBase64()}}" alt="images from database" width="20%" height="20%"/></td>
-        <td><input type="checkbox" value="Verified"/></td>
+        <td style="text-align: center"><img th:src="@{'data:image/jpeg;base64,'+${document.getImageDataBase64()}}" alt="images from database" width="20%" height="20%"/></td>
+        <td>
+            <form th:action="@{/updateStatus}" method="post">
+                <input type="hidden" name="loanId" th:value="${document.loanId}">
+                <input type="hidden" name="email" th:value="${email}">
+                <input type="hidden" name="password" th:value="${password}">
+                <input type="checkbox"
+                       th:checked = "${document.verificationStatus == 'Approved'}"
+                       th:onchange="this.form.submit()"
+                       name="verified"
+                       th:disabled="${document.verificationStatus == 'Approved'}"
+                />
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
