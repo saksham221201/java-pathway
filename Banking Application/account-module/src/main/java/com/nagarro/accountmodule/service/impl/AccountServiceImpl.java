@@ -9,7 +9,7 @@ import com.nagarro.accountmodule.exception.EmptyInputException;
 import com.nagarro.accountmodule.exception.IllegalArgumentException;
 import com.nagarro.accountmodule.exception.RecordNotFoundException;
 import com.nagarro.accountmodule.service.AccountService;
-import com.nagarro.accountmodule.service.UserServiceClient;
+import com.nagarro.accountmodule.client.UserServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

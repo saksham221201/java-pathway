@@ -39,3 +39,13 @@
 2024-07-22 14:42:26 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
 2024-07-22 14:42:26 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
 2024-07-22 14:42:52 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 28.003 seconds (process running for 30.568)
+2024-07-25 10:21:47 [main] INFO  c.n.cardmodule.CardModuleApplication - Starting CardModuleApplication using Java 19.0.2 with PID 16432 (D:\Java Pathway\Banking Application\card-module\target\classes started by sakshamjoshi in D:\Java Pathway\Banking Application\card-module)
+2024-07-25 10:21:47 [main] DEBUG c.n.cardmodule.CardModuleApplication - Running with Spring Boot v3.2.7, Spring v6.1.10
+2024-07-25 10:21:47 [main] INFO  c.n.cardmodule.CardModuleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-07-25 10:22:07 [main] INFO  c.n.cardmodule.CardModuleApplication - Started CardModuleApplication in 21.55 seconds (process running for 22.678)
+2024-07-25 10:35:32 [http-nio-8087-exec-2] INFO  c.n.cardmodule.aspect.LoggingAspect - Entering method: getCardDetails
+2024-07-25 10:35:32 [http-nio-8087-exec-2] INFO  c.n.cardmodule.aspect.LoggingAspect - Exiting method: getCardDetails with result: Card(cardNumber=4465420163544267, name=Saksham Joshi, email=sakshamjoshi1975@gmail.com, cvv=$2a$10$0pNOgv8xidpVUobbWWw7Eex.Ab0rpLydk.4wqum4Oh5GVuXZeBQ0i, expenseLimit=100000, accountNumber=12345329696, activationStatus=false, expiryDate=2034-07-11, cardType=DEBIT, dailyLimit=10000, lost=true)
+2024-07-25 10:35:32 [http-nio-8087-exec-2] INFO  c.n.c.aspect.ExecutionTimeAspect - Class Name: com.nagarro.cardmodule.service.impl.CardServiceImpl. Method Name: getCardDetails. Time taken for Execution from transaction service is : 292ms
+2024-07-25 10:35:46 [http-nio-8087-exec-3] INFO  c.n.cardmodule.aspect.LoggingAspect - Entering method: getCardDetails
+2024-07-25 10:35:46 [http-nio-8087-exec-3] INFO  c.n.cardmodule.aspect.LoggingAspect - Exiting method: getCardDetails with result: Card(cardNumber=4465420163544267, name=Saksham Joshi, email=sakshamjoshi1975@gmail.com, cvv=$2a$10$0pNOgv8xidpVUobbWWw7Eex.Ab0rpLydk.4wqum4Oh5GVuXZeBQ0i, expenseLimit=100000, accountNumber=12345329696, activationStatus=false, expiryDate=2034-07-11, cardType=DEBIT, dailyLimit=10000, lost=true)
+2024-07-25 10:35:46 [http-nio-8087-exec-3] INFO  c.n.c.aspect.ExecutionTimeAspect - Class Name: com.nagarro.cardmodule.service.impl.CardServiceImpl. Method Name: getCardDetails. Time taken for Execution from transaction service is : 12ms

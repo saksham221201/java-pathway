@@ -1,4 +1,4 @@
-package com.nagarro.accountmodule.service;
+package com.nagarro.accountmodule.client;
 
 import com.nagarro.accountmodule.config.FeignClientConfig;
 import com.nagarro.accountmodule.dto.User;
