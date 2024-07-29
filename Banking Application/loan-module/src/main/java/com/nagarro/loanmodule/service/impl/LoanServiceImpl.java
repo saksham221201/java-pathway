@@ -4,6 +4,7 @@ import com.nagarro.loanmodule.client.AccountClient;
 import com.nagarro.loanmodule.client.UserServiceClient;
 import com.nagarro.loanmodule.dao.LoanDao;
 import com.nagarro.loanmodule.dto.AccountDTO;
+import com.nagarro.loanmodule.dto.Mail;
 import com.nagarro.loanmodule.dto.Role;
 import com.nagarro.loanmodule.dto.User;
 import com.nagarro.loanmodule.entity.Loan;
@@ -12,6 +13,7 @@ import com.nagarro.loanmodule.request.LoginRequest;
 import com.nagarro.loanmodule.request.VerifyStatusRequest;
 import com.nagarro.loanmodule.response.LoginResponse;
 import com.nagarro.loanmodule.service.LoanService;
+import com.nagarro.loanmodule.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,12 +30,14 @@ public class LoanServiceImpl implements LoanService {
     private final LoanDao loanDao;
     private final AccountClient accountClient;
     private final UserServiceClient userClient;
+    private final MailService mailService;
 
     @Autowired
-    public LoanServiceImpl(LoanDao loanDao, AccountClient accountClient, UserServiceClient userClient) {
+    public LoanServiceImpl(LoanDao loanDao, AccountClient accountClient, UserServiceClient userClient, MailService mailService) {
         this.loanDao = loanDao;
         this.accountClient = accountClient;
         this.userClient = userClient;
+        this.mailService = mailService;
     }
 
     @Override
@@ -63,6 +67,8 @@ public class LoanServiceImpl implements LoanService {
                         loan.getTenure(), loan.getRateOfInterest()))
                 .build();
 
+        sendMail(loan.getEmail(), "Loan Applied", "Loan of Rs " + loan.getLoanAmount() + " was applied in the Bank. The monthly EMI is " + calculateEMI(loan.getLoanAmount(), loan.getTenure(), loan.getRateOfInterest()) + " with a rate of interest of " + loan.getRateOfInterest() + " and tenure of " + loan.getTenure() + " years.");
+
         return loanDao.save(newLoan);
     }
 
@@ -73,6 +79,12 @@ public class LoanServiceImpl implements LoanService {
             throw new BadRequestException("Loan does not exist", HttpStatus.BAD_REQUEST.value());
         }
         loanOptional.get().setVerificationStatus("Approved");
+
+        Mail mail = new Mail();
+        mail.setSubject("Loan Documents Approved");
+        mail.setMessage("Your loan documents were approved by the Bank Manager");
+
+        sendMail(loanOptional.get().getEmail(), "Loan Documents Approved", "Your loan documents were approved by the Bank Manager.");
         return loanDao.save(loanOptional.get());
     }
 
@@ -114,5 +126,13 @@ public class LoanServiceImpl implements LoanService {
         int n = tenure * 12;
         double r = rate / 1200;
         return (loanAmount * r * Math.pow((1 + r), n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    private void sendMail(String email, String subject, String message) {
+        Mail mail = new Mail();
+        mail.setSubject(subject);
+        mail.setMessage(message);
+
+        mailService.sendMail(email, mail);
     }
 }
