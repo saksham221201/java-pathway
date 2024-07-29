@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section class="my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 th:text="${message}"></h1>
+            <h2>Bank Document Upload</h2>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <label>Upload Aadhaar</label>
+                <input type="file" name="file" required/>
+                <label>LoanId</label>
+                <input type="text" name="loanId" required/>
+
+                <button type="submit">Upload</button>
+            </form>
+
+            <a th:href="@{/view}">View All Documents</a>
+
+        </div>
+    </div>
+</section>
+</body>
+</html>
