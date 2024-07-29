@@ -33,7 +33,6 @@ public class TransactionController {
 
     @PostMapping("/deposit")
     public ResponseEntity<AccountDTO> addMoneyToAccount(@RequestBody TransactionRequest moneyRequest){
-
         AccountDTO updatedAccount = transactionService.depositMoney(moneyRequest);
         return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
     }
