@@ -18,7 +18,7 @@ public class Kyc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String kycStatus;
-    private String userId;
+    private String email;
 
     @Lob
     @Column(name = "document", columnDefinition = "MEDIUMBLOB")
