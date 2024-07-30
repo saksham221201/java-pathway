@@ -1,8 +1,8 @@
-package com.nagarro.loanmodule.config;
+package com.nagarro.kycmodule.config;
 
-import com.nagarro.loanmodule.client.UserServiceClient;
-import com.nagarro.loanmodule.dto.User;
-import com.nagarro.loanmodule.util.JwtTokenUtil;
+import com.nagarro.kycmodule.client.UserClient;
+import com.nagarro.kycmodule.dto.User;
+import com.nagarro.kycmodule.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserServiceClient userServiceClient;
+    private UserClient userServiceClient;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
