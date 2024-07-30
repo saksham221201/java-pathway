@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "USER-SERVICE")
-public interface UserClient {
+public interface UserServiceClient {
 
     @GetMapping("/v1/api/users/email/{email}")
     User getUserByEmail(@PathVariable String email);
