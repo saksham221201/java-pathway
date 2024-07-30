@@ -32,5 +32,4 @@ public class FeignClientConfig {
         logger.warn("Authentication is null or credentials are not of type String");
         return null;
     }
-
 }

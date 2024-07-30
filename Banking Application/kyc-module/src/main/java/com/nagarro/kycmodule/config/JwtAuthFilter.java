@@ -1,6 +1,6 @@
 package com.nagarro.kycmodule.config;
 
-import com.nagarro.kycmodule.client.UserClient;
+import com.nagarro.kycmodule.client.UserServiceClient;
 import com.nagarro.kycmodule.dto.User;
 import com.nagarro.kycmodule.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -24,13 +24,17 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
+    private final Logger logger = LoggerFactory.getLogger(FeignClientConfig.class);
+
+    private final JwtTokenUtil jwtTokenUtil;
+
+    private final UserServiceClient userServiceClient;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserClient userServiceClient;
+    public JwtAuthFilter(JwtTokenUtil jwtTokenUtil, UserServiceClient userServiceClient){
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userServiceClient = userServiceClient;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

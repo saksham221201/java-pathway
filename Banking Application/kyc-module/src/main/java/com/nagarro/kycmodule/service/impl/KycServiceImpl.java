@@ -1,7 +1,6 @@
 package com.nagarro.kycmodule.service.impl;
 
 import com.nagarro.kycmodule.client.UserServiceClient;
-import com.nagarro.kycmodule.controller.KycController;
 import com.nagarro.kycmodule.dao.KycDao;
 import com.nagarro.kycmodule.dto.User;
 import com.nagarro.kycmodule.entity.Kyc;
@@ -9,8 +8,6 @@ import com.nagarro.kycmodule.exception.BadRequestException;
 import com.nagarro.kycmodule.exception.RecordNotFoundException;
 import com.nagarro.kycmodule.response.KycDocumentResponse;
 import com.nagarro.kycmodule.service.KycService;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
@@ -31,14 +28,17 @@ public class KycServiceImpl implements KycService {
     private final Logger logger = LoggerFactory.getLogger(KycServiceImpl.class);
 
     private final KycDao kycDao;
+    private final UserServiceClient userServiceClient;
 
     @Autowired
-    public KycServiceImpl(KycDao kycDao) {
+    public KycServiceImpl(KycDao kycDao, UserServiceClient userServiceClient) {
         this.kycDao = kycDao;
+        this.userServiceClient = userServiceClient;
     }
 
     @Override
     public Kyc uploadKyc(Kyc kyc) {
+        final User user = userServiceClient.getUserByEmail(kyc.getEmail());
         return kycDao.save(kyc);
     }
 
@@ -66,13 +66,20 @@ public class KycServiceImpl implements KycService {
             logger.error("KYC not found with id {}", id);
             throw new RecordNotFoundException("KYC not found with id " + id, HttpStatus.NOT_FOUND.value());
         }
+
+        User user = userServiceClient.getUserByEmail(optionalKyc.get().getEmail());
         byte[] document = optionalKyc.get().getDocument();
+        if (document == null) {
+            throw new RecordNotFoundException("Document Not found for the KYC", HttpStatus.NOT_FOUND.value());
+        }
+
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(document)){
             XWPFDocument doc = new XWPFDocument(byteArrayInputStream);
             XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
             String text = extractor.getText();
             return KycDocumentResponse
                     .builder()
+                    .user(user)
                     .documentText(text)
                     .build();
         }
