@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface KycService {
     Kyc uploadKyc(Kyc kyc);
-    void storeDocument(MultipartFile multipartFile, int kycId) throws IOException;
+    void storeDocument(MultipartFile multipartFile, int kycId, String fileName) throws IOException;
     List<Kyc> getAllKyc();
     KycDocumentResponse getDocumentText(int id) throws IOException;
 }

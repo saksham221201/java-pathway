@@ -24,7 +24,7 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(FeignClientConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 
     private final JwtTokenUtil jwtTokenUtil;
 

@@ -41,7 +41,7 @@ public class KycController {
 
     @PostMapping("/documents")
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("kycId") int kycId, Model model) throws IOException {
-        kycService.storeDocument(file, kycId);
+        kycService.storeDocument(file, kycId, file.getOriginalFilename());
         return "uploadSuccess";
     }
 

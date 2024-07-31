@@ -23,6 +23,7 @@ public class Kyc {
     @Lob
     @Column(name = "document", columnDefinition = "MEDIUMBLOB")
     private byte[] document;
+    private String fileName;
 
 
     public String getImageDataBase64() {
