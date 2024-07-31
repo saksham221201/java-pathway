@@ -12,4 +12,5 @@ public interface KycService {
     void storeDocument(MultipartFile multipartFile, int kycId, String fileName) throws IOException;
     List<Kyc> getAllKyc();
     KycDocumentResponse getDocumentText(int id) throws IOException;
+    boolean matchUserInfoToKyc(int id) throws IOException;
 }

@@ -63,4 +63,14 @@ public class KycController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @GetMapping("/document/verify/{id}")
+    public ResponseEntity<Boolean> verifyKycDocuments(@PathVariable int id){
+        try {
+            boolean verification = kycService.matchUserInfoToKyc(id);
+            return new ResponseEntity<>(verification, HttpStatus.OK);
+        }catch (IOException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
