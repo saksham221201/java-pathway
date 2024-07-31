@@ -32,14 +32,14 @@ public class KycController {
         return "index";
     }
 
-    @PostMapping("/uploadKyc")
+    @PostMapping("/kyc")
     public ResponseEntity<Kyc> uploadKyc(@RequestBody Kyc kyc) {
         Kyc uploadedKyc = kycService.uploadKyc(kyc);
         logger.info("KYC: {}", uploadedKyc);
         return new ResponseEntity<>(uploadedKyc, HttpStatus.CREATED);
     }
 
-    @PostMapping("/uploadDocument")
+    @PostMapping("/documents")
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("kycId") int kycId, Model model) throws IOException {
         kycService.storeDocument(file, kycId);
         return "uploadSuccess";
