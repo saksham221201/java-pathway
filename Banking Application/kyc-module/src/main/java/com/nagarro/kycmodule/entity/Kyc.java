@@ -24,6 +24,7 @@ public class Kyc {
     @Column(name = "document", columnDefinition = "MEDIUMBLOB")
     private byte[] document;
 
+
     public String getImageDataBase64() {
         return Base64.encodeBase64String(this.document);
     }
