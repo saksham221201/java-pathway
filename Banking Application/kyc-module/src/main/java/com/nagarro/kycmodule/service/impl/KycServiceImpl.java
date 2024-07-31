@@ -23,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class KycServiceImpl implements KycService {
@@ -102,6 +105,45 @@ public class KycServiceImpl implements KycService {
                 .build();
     }
 
+    @Override
+    public boolean matchUserInfoToKyc(int id) throws IOException {
+        Optional<Kyc> optionalKyc = kycDao.findById(id);
+        if (optionalKyc.isEmpty()) {
+            logger.error("KYC not found in matchUser with id {}", id);
+            throw new RecordNotFoundException("KYC not found with id " + id, HttpStatus.NOT_FOUND.value());
+        }
+
+        User user = userServiceClient.getUserByEmail(optionalKyc.get().getEmail());
+        byte[] document = optionalKyc.get().getDocument();
+        String fileName = optionalKyc.get().getFileName();
+
+        if (document == null) {
+            throw new RecordNotFoundException("Document Not found for the KYC", HttpStatus.NOT_FOUND.value());
+        }
+
+        String documentText = null;
+        if (fileName.endsWith(".docx")) {
+            logger.info("FileName in matchUser ends with docx");
+            documentText = extractTextFromDocx(document);
+        } else if (fileName.endsWith(".pdf")) {
+            logger.info("FileName in matchUser ends with PDF");
+            documentText = extractTextFromPdf(document);
+        }
+
+        Map<String,String> userInfo = extractInfo(documentText);
+
+        String fName = userInfo.get("FirstName");
+        String lName = userInfo.get("LastName");
+        String email = userInfo.get("Email");
+        String mobile = userInfo.get("Mobile");
+
+        return user.getFirstName().equals(fName)
+                && user.getLastName().equals(lName)
+                && user.getEmail().equals(email)
+                && user.getMobile().equals(mobile);
+    }
+
+
     private String extractTextFromDocx(byte[] document) throws IOException {
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(document)){
             XWPFDocument doc = new XWPFDocument(byteArrayInputStream);
@@ -116,5 +158,12 @@ public class KycServiceImpl implements KycService {
             PDFTextStripper pdfTextStripper = new PDFTextStripper();
             return pdfTextStripper.getText(pdDocument);
         }
+    }
+
+    private Map<String,String> extractInfo(String text){
+        return Arrays.stream(text.split("\n"))
+                .map(line -> line.split(": ",2))
+                .filter(parts -> parts.length==2)
+                .collect(Collectors.toMap(parts -> parts[0].trim(), parts->parts[1].trim()));
     }
 }

@@ -25,6 +25,7 @@ public class Kyc {
     private byte[] document;
     private String fileName;
 
+
     public String getImageDataBase64() {
         return Base64.encodeBase64String(this.document);
     }
